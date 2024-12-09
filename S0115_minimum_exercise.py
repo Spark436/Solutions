@@ -23,13 +23,14 @@ Send derefter denne Teams-meddelelse til din lærer: <filename> færdig
 Fortsæt derefter med den næste fil.
 """
 
-def minimum(numberlist):
 
- min_value = numberlist[0]
- for num in numberlist:
-     if num < min_value:
-         min_value = num
- return min_value
+def minimum(numberlist):
+    min_value = numberlist[0]
+    for num in numberlist:
+        if num < min_value:
+            min_value = num
+    return min_value
+
 
 print(minimum([6, 2, 7, 3]))  # Should print 2
 print(minimum([8, 1, 17, 3, 5, 8, 3]))  # Should print 1
