@@ -47,18 +47,20 @@ Send derefter denne Teams-meddelelse til din lærer: <filename> færdig
 Fortsæt derefter med den næste fil.
 """
 
+
 #  Write your functions below this line.
 
 def print_repeatedly(string, repetitions):
-    for number in range(repetitions):
-        print (string, end='')
+    for x in range(repetitions):
+        print(string, end='')
+
 
 def print_pattern(string, repetition_list):
     for repetitions in repetition_list:
-        # print (repetitions)
         print_repeatedly(string, repetitions)
         print()
 
+
 # Here starts the main program. From the main program you can call your functions.
-# print_repeatedly("xy", 3)
+print_repeatedly("xy", 3)
 print_pattern("xy", [3, 2, 4])
