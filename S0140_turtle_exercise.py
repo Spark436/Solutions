@@ -93,6 +93,14 @@ def many_squares(tom,antal,størrelse,afstand):
         tom.pendown()
     turtle.done()
 
+
+def spiral(tom,lenght,størrelse):
+    for x in range(lenght):
+
+
+    for x in range(størrelse):
+
+
 #demo()
 
 #square(150)
