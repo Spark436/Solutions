@@ -53,10 +53,9 @@ import turtle  # this imports a library called "turtle". A library is (someone e
 
 
 def visible(turtle_name):  # returns true if both the x- and y-value of the turtle's position are between -480 and 480
-    pass
-# you will need this: x-value: turtle_name.position()[0]
-# and this:           y-value: turtle_name.position()[1]
-# return 0
+    # you will need this: x-value: turtle_name.position()[0]
+    # and this:           y-value: turtle_name.position()[1]
+    return 0
 
 
 def demo():  # demonstration of basic turtle commands
@@ -79,32 +78,46 @@ def demo():  # demonstration of basic turtle commands
     turtle.done()  # keeps the turtle window open after the program is done
 
 
-def square(tom,length):
+def square(tom, length):
     for x in range(4):
         tom.right(90)
+
         tom.forward(length)
 
 
-def many_squares(tom,antal,størrelse,afstand):
+def many_squares(tom, antal, størrelse, afstand):
     for x in range(antal):
-        square(tom,størrelse)
+        square(tom, størrelse)
+
         tom.penup()
+
         tom.forward(afstand)
+
         tom.pendown()
+
     turtle.done()
 
 
-def spiral(tom,lenght,størrelse):
-    for x in range(lenght):
+def spiral(tom, max_length, størrelse):
 
+        length = max_length
 
-    for x in range(størrelse):
+        while length > 0:
+            tom.forward(length)
 
+            tom.right(90)
 
-#demo()
+            length -= størrelse
 
-#square(150)
+        turtle.done()
+# demo()
+
+# square(150)
 
 
 tom = turtle.Turtle()
-many_squares(tom,3,50,100)
+
+#many_squares(tom, 3, 50, 100)
+
+
+spiral(tom,400,8)
