@@ -110,6 +110,9 @@ def spiral(tom, max_length, størrelse):
             length -= størrelse
 
         turtle.done()
+
+
+def star(tom, )
 # demo()
 
 # square(150)
@@ -120,4 +123,4 @@ tom = turtle.Turtle()
 #many_squares(tom, 3, 50, 100)
 
 
-spiral(tom,400,8)
+spiral(tom,200,8)
