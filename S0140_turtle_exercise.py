@@ -112,10 +112,12 @@ def spiral(tom, max_length, størrelse):
         turtle.done()
 
 
-def star(tom, kanter, stjerne_størrelse):
+def star(tom, kanter, stjerne_størrelse): #for 5 kanter sæt tom.right til 144 og kanter til 5
+
+    angle = 180 - 180 / kanter
 
     for x in range(kanter):
-        tom.right(150)
+        tom.right(angle)
 
         tom.forward(stjerne_størrelse)
 
@@ -133,4 +135,4 @@ tom = turtle.Turtle()
 
 #spiral(tom,200,8)
 
-star(tom, 5, 250)
+star(tom, 11, 250)
