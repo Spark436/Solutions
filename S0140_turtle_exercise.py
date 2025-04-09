@@ -123,6 +123,9 @@ def star(tom, kanter, stjerne_størrelse): #for 5 kanter sæt tom.right til 144 
 
     turtle.done()
 
+
+def river(tom, )
+
 # demo()
 
 # square(150)
