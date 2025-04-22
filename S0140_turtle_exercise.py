@@ -124,7 +124,23 @@ def star(tom, kanter, stjerne_størrelse): #for 5 kanter sæt tom.right til 144 
     turtle.done()
 
 
-def river(tom, )
+def river(tom, linjer, længde, mellemrum):
+
+    angle = 90
+
+    for x in range(linjer):
+        tom.forward(længde)
+
+        tom.right(angle)
+
+        tom.forward(mellemrum)
+
+        tom.right(angle)
+
+        angle = -angle
+
+    turtle.done()
+
 
 # demo()
 
@@ -135,7 +151,8 @@ tom = turtle.Turtle()
 
 #many_squares(tom, 3, 50, 100)
 
-
 #spiral(tom,200,8)
 
-star(tom, 11, 250)
+#star(tom, 11, 250)
+
+#river(tom, 3, 90, 50)
