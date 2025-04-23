@@ -28,15 +28,16 @@ Vend tilbage til S0105_pycharm_tips.py og prøv nogle shortcuts i eksempelkoden 
 
 # Den følgende kode tjener som legeplads for de ovenstående opgaver.
 
-def eksempel(number):
+def electric(boogaloo):
     result = 0
-    for n in range(number, 2 * number, 3):
+    for n in range(boogaloo, 2 * boogaloo, 3):
         result += n
+
     result *= 10
+
     return result
 
-
 print("Start")
-print(f"{eksempel(4)=}")
-print(f"{eksempel(7)=}")
+print(f"{ electric(4)=}")
+print(f"{ electric(7)=}")
 print("End")
