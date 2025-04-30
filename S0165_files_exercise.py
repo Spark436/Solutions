@@ -22,4 +22,11 @@ Fortsæt derefter med den næste fil.
 mydata = "er, år gammel"
 myfile = "S0165_input.txt"
 
-with open(myfile, "w") as file:
+with open(myfile) as file:
+    lines = file.readlines()
+line_number = 0
+for line in lines:
+    line_number += 1
+    print (f"line {line_number}): {line.strip()}")
+
+#print(f"Hello, {name}! You're {age} years old.")
