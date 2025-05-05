@@ -19,7 +19,6 @@ Når dit program er færdigt, skal du skubbe det til dit github-repository.
 Send derefter denne Teams-meddelelse til din lærer: <filename> færdig
 Fortsæt derefter med den næste fil.
 """
-mydata = "er, år gammel"
 myfile = "S0165_input.txt"
 
 with open(myfile) as file:
@@ -27,6 +26,9 @@ with open(myfile) as file:
 line_number = 0
 for line in lines:
     line_number += 1
-    print (f"line {line_number}): {line.strip()}")
-
-#print(f"Hello, {name}! You're {age} years old.")
+    x = line.split()
+    name = x[0]
+    age = x[1]
+    n,a = line.split()
+    print(f"Hello, {name}! You're {age} years old.")
+    print(f"Hello, {n}! You're {a} years old.")
