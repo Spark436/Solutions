@@ -49,6 +49,24 @@ def mine():
     morris["hunger"] += 5
     morris["gold"]  += 5
 
+def eat():
+    morris["sleepiness"] += 5
+    morris["thirst"] -= 5
+    morris["hunger"] -= 20
+    morris["gold"] -= 2
+
+def buy_whisky()
+    morris["sleepiness"] += 5
+    morris["thirst"] += 1
+    morris["hunger"] += 1
+    morris["whisky"] += 1
+    morris["gold"] -= 1
+
+def drink():
+    morris["sleepiness"] += 5
+    morris["thirst"] -= 15
+    morris["hunger"] -= 1
+    morris["whisky"] -= 1
 
 def dead():
     return morris["sleepiness"] > 100 or morris["thirst"] > 100 or morris["hunger"] > 100
