@@ -76,5 +76,6 @@ morris = {"turn": 0, "sleepiness": 0, "thirst": 0, "hunger": 0, "whisky": 0, "go
 
 while not dead() and morris["turn"] < 1000:
     morris["turn"] += 1
-    sleep()
+    if morris["sleepiness"] = 60:
+        sleep()
     print(morris)
