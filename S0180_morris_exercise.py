@@ -76,8 +76,15 @@ morris = {"turn": 0, "sleepiness": 0, "thirst": 0, "hunger": 0, "whisky": 0, "go
 
 while not dead() and morris["turn"] < 1000:
     morris["turn"] += 1
-    if morris["sleepiness"] == 60:
+    if morris["thirst"] >= 95:
+     if morris["whisky"] == 0:
+            buy_whisky()
+     else:
+            drink()
+    elif morris["sleepiness"] >= 90:
         sleep()
+    elif morris["hunger"] >= 93:
+        eat()
     else:
         mine()
     print(morris)
