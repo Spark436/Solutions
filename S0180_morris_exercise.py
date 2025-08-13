@@ -87,4 +87,5 @@ while not dead() and morris["turn"] < 1000:
         eat()
     else:
         mine()
+
     print(morris)
