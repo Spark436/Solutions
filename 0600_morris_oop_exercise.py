@@ -24,6 +24,7 @@ class Miner:
         self.hunger = 0
         self.whisky = 0
         self.gold = 0
+        self.turn = 0
 
     def sleep(self):
         self.sleepiness -= 10   # update sleepiness
@@ -56,13 +57,13 @@ class Miner:
         self.hunger -= 1
         self.whisky -= 1
 
-    def dead():
-        return morris["sleepiness"] > 100 or morris["thirst"] > 100 or morris["hunger"] > 100
+    def dead(self):
+        return self.sleepiness > 100 or self.thirst > 100 or self.thirst > 100
 
 
 morris = {"turn": 0, "sleepiness": 0, "thirst": 0, "hunger": 0, "whisky": 0, "gold": 0}  # dictionary
 
-while not dead() and morris["turn"] < 1000:
+while not dead(self) and self.turn < 1000:
     morris["turn"] += 1
     if morris["thirst"] >= 95:
         if morris["whisky"] == 0:
