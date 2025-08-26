@@ -60,6 +60,8 @@ class Miner:
     def dead(self):
         return self.sleepiness > 100 or self.thirst > 100 or self.thirst > 100
 
+morris = Miner()
+
 
 morris = {"turn": 0, "sleepiness": 0, "thirst": 0, "hunger": 0, "whisky": 0, "gold": 0}  # dictionary
 
