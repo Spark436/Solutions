@@ -17,47 +17,55 @@ Hvis du går i stå, så spørg google, de andre elever, en AI eller læreren.
 Når dit program er færdigt, skal du skubbe det til dit github-repository.
 ."""
 
+class Miner:
+    def __init__(self):
+        self.sleepiness = 0
+        self.thirst = 0
+        self.hunger = 0
+        self.whisky = 0
+        self.gold = 0
+        self.turn = 0
 
-class miner()
+    def sleep(self):
+        self.sleepiness -= 10   # update sleepiness
+        self.thirst += 1    # update thirst
+        self.hunger += 1   # update hunger
+        # check for values out of boundaries
 
-def sleep():
-    morris["sleepiness"] -= 10   # update sleepiness
-    morris["thirst"] += 1    # update thirst
-    morris["hunger"] += 1   # update hunger
-    # check for values out of boundaries
+    def mine(self):
+        self.sleepiness += 5
+        self.thirst += 5
+        self.hunger += 5
+        self.gold  += 5
 
-def mine():
-    morris["sleepiness"] += 5
-    morris["thirst"] += 5
-    morris["hunger"] += 5
-    morris["gold"]  += 5
+    def eat(self):
+        self.sleepiness += 5
+        self.thirst -= 5
+        self.hunger -= 20
+        self.gold -= 2
 
-def eat():
-    morris["sleepiness"] += 5
-    morris["thirst"] -= 5
-    morris["hunger"] -= 20
-    morris["gold"] -= 2
+    def buy_whisky(self):
+        self.sleepiness += 5
+        self.thirst += 1
+        self.hunger += 1
+        self.whisky += 1
+        self.gold -= 1
 
-def buy_whisky():
-    morris["sleepiness"] += 5
-    morris["thirst"] += 1
-    morris["hunger"] += 1
-    morris["whisky"] += 1
-    morris["gold"] -= 1
+    def drink(self):
+        self.sleepiness += 5
+        self.thirst -= 15
+        self.hunger -= 1
+        self.whisky -= 1
 
-def drink():
-    morris["sleepiness"] += 5
-    morris["thirst"] -= 15
-    morris["hunger"] -= 1
-    morris["whisky"] -= 1
+    def dead(self):
+        return self.sleepiness > 100 or self.thirst > 100 or self.thirst > 100
 
-def dead():
-    return morris["sleepiness"] > 100 or morris["thirst"] > 100 or morris["hunger"] > 100
+morris = Miner()
 
 
 morris = {"turn": 0, "sleepiness": 0, "thirst": 0, "hunger": 0, "whisky": 0, "gold": 0}  # dictionary
 
-while not dead() and morris["turn"] < 1000:
+while not dead(self) and self.turn < 1000:
     morris["turn"] += 1
     if morris["thirst"] >= 95:
         if morris["whisky"] == 0:
