@@ -63,20 +63,19 @@ class Miner:
 morris = Miner()
 
 
-morris = {"turn": 0, "sleepiness": 0, "thirst": 0, "hunger": 0, "whisky": 0, "gold": 0}  # dictionary
 
-while not dead(self) and self.turn < 1000:
-    morris["turn"] += 1
-    if morris["thirst"] >= 95:
-        if morris["whisky"] == 0:
-            buy_whisky()
+while not morris.dead() and morris.turn < 1000:
+    morris.turn += 1
+    if morris.thirst >= 95:
+        if morris.whisky == 0:
+            morris.buy_whisky()
         else:
-            drink()
-    elif morris["sleepiness"] >= 90:
-        sleep()
-    elif morris["hunger"] >= 93:
-        eat()
+            morris.drink()
+    elif morris.sleepiness >= 90:
+        morris.sleep()
+    elif morris.hunger >= 93:
+        morris.eat()
     else:
-        mine()
+        morris.mine()
 
-    print(morris)
+    print(morris.gold)
