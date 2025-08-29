@@ -58,3 +58,22 @@ Hvis du går i stå, så spørg google, de andre elever, en AI eller læreren.
 Når dit program er færdigt, skal du skubbe det til dit github-repository.
 """
 
+class Animal:
+    def __init__(self, name, sound, height, weight, legs, female):
+        self.name = name
+        self.sound = sound
+        self.height = height
+        self.weight = weight
+        self.legs = legs
+        self.female = female
+    def __repr__(self):
+        return F"name {self.name}, sound {self.sound}, height {self.height}, weight {self.weight}, legs {self.legs}, female? {self.female}"
+
+
+
+
+
+dog = Animal("dog", "bark", 120, 30, 4, True)
+
+
+print (dog)
