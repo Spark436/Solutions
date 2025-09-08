@@ -73,14 +73,20 @@ class Animal:
         print(self.sound)
 
 class Dog(Animal):
-    def __init__(self, name, sound, height, weight, legs, female):
+    def __init__(self, name, sound, height, weight, legs, female, tail_length, hunts_sheep):
         super().__init__(name, sound, height, weight, legs, female)
+        self.tail_length = tail_length
+        self.hunts_sheep = hunts_sheep
+    def __repr__(self):
+        return F"Rofus: name {self.name}, sound {self.sound}, height {self.height}, weight {self.weight}, legs {self.legs}, female? {self.female}, tail length {self.tail_length}, hunts sheep? {self.hunts_sheep},"
 
 
 
 dog = Animal("dog", "bark", 120, 30, 4, True)
 
+rofus = Dog("Rofus", "ruff", "100", "25", "4", "false", "20", "true", )
 
-print (dog)
+
+print (rofus)
 
 dog.make_noise()
