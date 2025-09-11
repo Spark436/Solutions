@@ -78,15 +78,22 @@ class Dog(Animal):
         self.tail_length = tail_length
         self.hunts_sheep = hunts_sheep
     def __repr__(self):
-        return F"Rofus: name {self.name}, sound {self.sound}, height {self.height}, weight {self.weight}, legs {self.legs}, female? {self.female}, tail length {self.tail_length}, hunts sheep? {self.hunts_sheep},"
+        return F"Rofus: name {self.name=}, sound {self.sound}, height {self.height}, weight {self.weight}, legs {self.legs}, female? {self.female}, tail length {self.tail_length}, hunts sheep? {self.hunts_sheep},"
 
+    def wag_tail(self):
+        print(f"Hunden {self.name} vifter med sin {self.tail_length} cm lange hale")
 
+def mate(mother, father)
 
 dog = Animal("dog", "bark", 120, 30, 4, True)
 
-rofus = Dog("Rofus", "ruff", "100", "25", "4", "false", "20", "true", )
+rofus = Dog("Rofus", "ruff", "100", "25", "4", "false", "35", "true", )
 
 
 print (rofus)
 
 dog.make_noise()
+
+rofus.make_noise()
+
+rofus.wag_tail()
