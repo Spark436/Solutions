@@ -27,7 +27,7 @@ class Miner:
         self.turn = 0
 
     def __repr__(self):
-        return f"Miner sleepiness {self.sleepiness}, thirst {self.thirst}, hunger {self.hunger}, whisky {self.whisky}, gold {self.gold}, gold {self.turn},"
+        return f"Miner: sleepiness {self.sleepiness}, thirst {self.thirst}, hunger {self.hunger}, whisky {self.whisky}, gold {self.gold}, turn {self.turn},"
 
     def sleep(self):
         self.sleepiness -= 10   # update sleepiness
@@ -67,7 +67,7 @@ morris = Miner()
 
 
 
-while not morris.dead() and morris.turn < 1000:
+while not morris.dead() and morris.turn < 30000:
     morris.turn += 1
     if morris.thirst >= 95:
         if morris.whisky == 0:
