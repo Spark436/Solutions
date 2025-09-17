@@ -83,12 +83,17 @@ class Dog(Animal):
     def wag_tail(self):
         print(f"Hunden {self.name} vifter med sin {self.tail_length} cm lange hale")
 
-def mate(mother, father)
+def mate(mother, father):
+    puppy = Dog("Fetch","ruff", 100, 25, 4, False, 35, True,)
+    return puppy
 
 dog = Animal("dog", "bark", 120, 30, 4, True)
 
-rofus = Dog("Rofus", "ruff", "100", "25", "4", "false", "35", "true", )
+rofus = Dog("Rofus", "ruff", 100, 25, 4, False, 35, True,)
 
+daisy = Dog("Rofus", "ruff", 100, 25, 4, True, 35, True,)
+
+new_dog = mate(daisy, rofus)
 
 print (rofus)
 
