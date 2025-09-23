@@ -58,6 +58,7 @@ Hvis du går i stå, så spørg google, de andre elever, en AI eller læreren.
 Når dit program er færdigt, skal du skubbe det til dit github-repository.
 """
 
+
 class Animal:
     def __init__(self, name, sound, height, weight, legs, female):
         self.name = name
@@ -66,37 +67,47 @@ class Animal:
         self.weight = weight
         self.legs = legs
         self.female = female
+
     def __repr__(self):
         return F"name {self.name}, sound {self.sound}, height {self.height}, weight {self.weight}, legs {self.legs}, female? {self.female}"
 
     def make_noise(self):
         print(self.sound)
 
+
 class Dog(Animal):
     def __init__(self, name, sound, height, weight, legs, female, tail_length, hunts_sheep):
         super().__init__(name, sound, height, weight, legs, female)
         self.tail_length = tail_length
         self.hunts_sheep = hunts_sheep
+
     def __repr__(self):
         return F"name {self.name}, sound {self.sound}, height {self.height}, weight {self.weight}, legs {self.legs}, female? {self.female}, tail length {self.tail_length}, hunts sheep? {self.hunts_sheep},"
+
+    def __add__(self, other):
+        return mate(self, other)
 
     def wag_tail(self):
         print(f"Hunden {self.name} vifter med sin {self.tail_length} cm lange hale")
 
-def mate(mother, father,):
-    puppy = Dog("Fetch","ruff", 100, 25, 4, False, 35, True,)
+
+def mate(mother, father, ):
+    puppy = Dog("Fetch", "ruff", 100, 25, 4, False, 35, True, )
     if mother.female == True and father.female == False:
         return puppy
     else:
         return None
 
+
 dog = Animal("dog", "bark", 120, 30, 4, True)
 
-rofus = Dog("Rofus", "ruff", 100, 25, 4, False, 35, True,)
+rofus = Dog("Rofus", "ruff", 100, 25, 4, False, 35, True, )
 
-daisy = Dog("Rofus", "ruff", 100, 25, 4, True, 35, True,)
+daisy = Dog("Rofus", "ruff", 100, 25, 4, True, 35, True, )
 
 new_dog = mate(daisy, rofus)
+
+new_dog2 = daisy + rofus
 
 print("dog1:", rofus)
 
@@ -106,4 +117,6 @@ rofus.make_noise()
 
 rofus.wag_tail()
 
-print("puppy:", new_dog)
+#print("puppy:", new_dog)
+
+print(new_dog2)
