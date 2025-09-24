@@ -17,7 +17,7 @@ Del 3:
 
 Del 4:
     Tilføj en metode "hit", som reducerer _current_health af en anden karakter med attackpower.
-    Eksempel: _current_health=80 og attackpower=10: et hit reducerer _current_health til 70.
+    Eksempel:  et hit reducerer _current_health ti_current_health=80 og attackpower=10:l 70.
     Metoden hit må ikke ændre den private attribut _current_health i en (potentielt) fremmed klasse.
     Definer derfor en anden metode get_hit, som reducerer _current_health for det objekt, som den tilhører, med attackpower.
 
@@ -45,12 +45,32 @@ class Character:
         self.attackpower = attackpower
 
     def __repr__(self):
-        return F"Name: {self.name}, Max health: {self.max_health}, Current health: {self._current_health}, Attack power: {self.attackpower}"
+        return F"Name: {self.name},\n Max health: {self.max_health}, Current health: {self._current_health}, Attack power: {self.attackpower}"
 
-    def hit(self):
+    def hit(self, other):
+        other.get_hit(self)
 
+    def get_hit(self, other):
+        self._current_health -= other.attackpower
+
+class Healer(Character):
+    def __init__(self, name, max_health, _current_health, attackpower, healpower):
+        super().__init__(name, max_health, _current_health, attackpower)
+        self.healpower = healpower
+
+    def __repr__(self):
+        return F"Name: {self.name},\n Max health: {self.max_health}, Current health: {self._current_health}, Attack power: {self.attackpower}, Heal power: {self.healpower}"
+
+    def heal(self, other):
+        other.get_healed(self)
+
+    def get_healed(self, other):
+        self._current_health += other.healpower
 
 ron = Character("Ron", 100, 100, 10)
-
-
-print(ron)
+bon = Character("Bon", 100, 100,  10)
+ellen = Healer("Ellen", 90, 90, 0, 10)
+ron.hit(bon)
+print(bon)
+ellen.heal(bon)
+print(bon)
