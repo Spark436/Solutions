@@ -53,6 +53,12 @@ class Character:
     def get_hit(self, other):
         self._current_health -= other.attackpower
 
+    def get_healed(self, other):
+        if self._current_health < 100:
+            self._current_health += other.healpower
+        else:
+            None
+
 class Healer(Character):
     def __init__(self, name, max_health, _current_health, attackpower, healpower):
         super().__init__(name, max_health, _current_health, attackpower)
@@ -64,8 +70,6 @@ class Healer(Character):
     def heal(self, other):
         other.get_healed(self)
 
-    def get_healed(self, other):
-        self._current_health += other.healpower
 
 ron = Character("Ron", 100, 100, 10)
 bon = Character("Bon", 100, 100,  10)
