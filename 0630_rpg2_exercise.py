@@ -43,11 +43,13 @@ class Character:
     def __repr__(self):
         return F"Name: {self.name},\n Max health: {self.max_health}, Current health: {self._current_health}, Attack power: {self.attackpower}"
 
-    def hit(self, other):
-        other.get_hit(self)
+    def hit(self, other, damage=None):
+        if damage is None:
+            damage = other.attackpower
+        other.get_hit(self, damage)
 
-    def get_hit(self, other):
-        self._current_health -= other.attackpower
+    def get_hit(self, other, damage):
+        self._current_health -= damage
 
     def get_healed(self, other):
         if self._current_health < 100:
@@ -66,15 +68,25 @@ class Healer(Character):
 class Mage(Character):
     def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier, mana):
         super().__init__(name, max_health, _current_health, attackpower, attack_multiplier=attack_multiplier, mana=mana)
-    def fireball(self):
-        self.attackpower *= self.attack_multiplier
+
+    def fireball(self, other):
+        damage = self.attackpower * self.attack_multiplier
+        self.hit(other, damage)
+
+    def weak_hit(self, other):
+        damage = self.attackpower * 0.8
+        self.hit(other, damage)
 
 
 
 ron = Character("Ron", 100, 100, 10)
 bon = Character("Bon", 100, 100,  10)
 ellen = Healer("Ellen", 90, 90, 0, 10)
-ron.hit(bon)
-print(bon)
-ellen.heal(bon)
+wizzy = Mage("Wizzy", 80, 80, 10, 1.5, 100)
+# ron.hit(bon)
+# print(bon)
+# ellen.heal(bon)
+# print(bon)
+# wizzy.fireball(bon)
+wizzy.weak_hit(bon)
 print(bon)
