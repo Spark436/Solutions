@@ -29,9 +29,10 @@ Hvis du går i stå, kan du spørge google, de andre elever, en AI eller lærere
 
 Når dit program er færdigt, skal du skubbe det til dit github-repository.
 """
+import random
 
 class Character:
-    def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier=1.0, mana=0, healpower=0):
+    def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier=1.0, mana=0, healpower=0, crit_chance=0, crit_damage=1.0):
         self.name = name
         self.max_health = max_health
         self._current_health = _current_health
@@ -39,13 +40,14 @@ class Character:
         self.attack_multiplier = attack_multiplier
         self.mana = mana
         self.healpower = healpower
+        self.crit_chance = crit_chance
 
     def __repr__(self):
         return F"Name: {self.name},\n Max health: {self.max_health}, Current health: {self._current_health}, Attack power: {self.attackpower}"
 
     def hit(self, other, damage=None):
         if damage is None:
-            damage = other.attackpower
+            damage = self.attackpower
         other.get_hit(self, damage)
 
     def get_hit(self, other, damage):
@@ -73,10 +75,14 @@ class Mage(Character):
         damage = self.attackpower * self.attack_multiplier
         self.hit(other, damage)
 
-    def weak_hit(self, other):
-        damage = self.attackpower * 0.8
-        self.hit(other, damage)
+    def hit(self, other, damage=None):
+        if damage is None:
+            damage = self.attackpower * 0.8
+        other.get_hit(self, damage)
 
+class Barbarian(Character):
+    def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier, crit_chance, crit_damage):
+        super().__init__(name, max_health, _current_health, attackpower, attack_multiplier=attack_multiplier, crit_chance=crit_chance, crit_damage=crit_damage)
 
 
 ron = Character("Ron", 100, 100, 10)
@@ -88,5 +94,5 @@ wizzy = Mage("Wizzy", 80, 80, 10, 1.5, 100)
 # ellen.heal(bon)
 # print(bon)
 # wizzy.fireball(bon)
-wizzy.weak_hit(bon)
+wizzy.fireball(bon)
 print(bon)
