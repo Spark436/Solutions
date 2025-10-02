@@ -85,15 +85,22 @@ class Mage(Character):
         other.get_hit(self, damage)
 
 class Barbarian(Character):
-    def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier, crit_chance, crit_damage):
+    def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier, crit_chance, crit_damage, self_damage, miss_chance):
         super().__init__(name, max_health, _current_health, attackpower, attack_multiplier=attack_multiplier, crit_chance=crit_chance, crit_damage=crit_damage)
+        self.self_damage = self_damage
+        self.miss_chance = miss_chance
 
     def blind_rage(self, other):
-        damage = self.attackpower * 1.8
-        crit = random.random()
-        if crit < self.crit_chance:
-            damage *= self.crit_damage
-        self.hit(other, damage)
+        if random.random() < self.miss_chance:
+            damage = self.attackpower * 1.8
+            crit = random.random()
+            if crit < self.crit_chance:
+                damage *= self.crit_damage
+            self.hit(other, damage)
+        else:
+            print(self.name, "Missed")
+        self_damage = self.self_damage
+        self.get_hit(self, self_damage)
 
 
 
@@ -102,7 +109,7 @@ ron = Character("Ron", 100, 100, 10)
 bon = Character("Bon", 100, 100,  10)
 ellen = Healer("Ellen", 90, 90, 0, 10)
 wizzy = Mage("Wizzy", 80, 80, 10, 1.5, 100, 0.2, 1.2)
-bonkus = Barbarian("Bonkus",110, 110, 10, 1.2, 0.4, 1.5)
+bonkus = Barbarian("Bonkus",110, 110, 10, 1.2, 0.4, 1.5, 10, 0.6)
 # ron.hit(bon)
 # print(bon)
 # ellen.heal(bon)
@@ -111,3 +118,4 @@ bonkus = Barbarian("Bonkus",110, 110, 10, 1.2, 0.4, 1.5)
 # wizzy.fireball(bon)
 bonkus.blind_rage(bon)
 print(bon)
+print(bonkus)
