@@ -58,6 +58,9 @@ class Character:
         if self._current_health < 100:
             self._current_health += other.healpower
 
+    def alive(self):
+        return self._current_health > 0
+
 class Healer(Character):
     def __init__(self, name, max_health, _current_health, attackpower, healpower):
         super().__init__(name, max_health, _current_health, attackpower, healpower=healpower)
@@ -102,6 +105,8 @@ class Barbarian(Character):
         self_damage = self.self_damage
         self.get_hit(self, self_damage)
 
+    def action(self):
+
 
 
 
@@ -110,12 +115,18 @@ bon = Character("Bon", 100, 100,  10)
 ellen = Healer("Ellen", 90, 90, 0, 10)
 wizzy = Mage("Wizzy", 80, 80, 10, 1.5, 100, 0.2, 1.2)
 bonkus = Barbarian("Bonkus",110, 110, 10, 1.2, 0.4, 1.5, 10, 0.6)
+
+while wizzy.alive() and bonkus.alive():
+    wizzy.fireball(bonkus)
+    bonkus.blind_rage(wizzy)
+
+
 # ron.hit(bon)
 # print(bon)
 # ellen.heal(bon)
 # print(bon)
 # wizzy.fireball(bon)
 # wizzy.fireball(bon)
-bonkus.blind_rage(bon)
-print(bon)
+# bonkus.blind_rage(bon)
+print(wizzy)
 print(bonkus)
