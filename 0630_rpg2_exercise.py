@@ -71,21 +71,35 @@ class Healer(Character):
     def heal(self, other):
         other.get_healed(self)
 
-class Mage(Character):
-    def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier, mana, crit_chance, crit_damage):
-        super().__init__(name, max_health, _current_health, attackpower, attack_multiplier=attack_multiplier, mana=mana, crit_chance=crit_chance, crit_damage=crit_damage)
+    def action(self, other):
+        # chooses one of the class actions and calls it
+        pass
 
-    def fireball(self, other):
+class Mage(Character):
+    def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier, mana, crit_chance, crit_damage, mana_loss):
+        super().__init__(name, max_health, _current_health, attackpower, attack_multiplier=attack_multiplier, mana=mana, crit_chance=crit_chance, crit_damage=crit_damage)
+        self.mana_loss = mana_loss
+
+    def fireball(self, other,):
         damage = self.attackpower * self.attack_multiplier
         crit = random.random()
+        mana_loss = self.mana - self.mana_loss
         if crit < self.crit_chance:
             damage *= self.crit_damage
-        self.hit(other, damage)
+        mana_loss = self.mana - self.mana_loss
+        self.hit(other, damage, mana_loss)
 
-    def hit(self, other, damage=None):
+    def hit(self, other, damage=None, mana_loss=None):
         if damage is None:
             damage = self.attackpower * 0.8
         other.get_hit(self, damage)
+
+    def action(self, other): # chooses one of the class actions and calls it
+        if random.random() > 0.6:
+            self.fireball(other)
+        else:
+            self.hit(other)
+        pass
 
 class Barbarian(Character):
     def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier, crit_chance, crit_damage, self_damage, miss_chance):
@@ -95,7 +109,7 @@ class Barbarian(Character):
 
     def blind_rage(self, other):
         if random.random() < self.miss_chance:
-            damage = self.attackpower * 1.8
+            damage = self.attackpower * 1.7
             crit = random.random()
             if crit < self.crit_chance:
                 damage *= self.crit_damage
@@ -105,20 +119,22 @@ class Barbarian(Character):
         self_damage = self.self_damage
         self.get_hit(self, self_damage)
 
-    def action(self):
-
-
+    def action(self, other): # chooses one of the class actions and calls it
+        if random.random() > 0.5:
+            self.blind_rage(other)
+        else:
+            self.hit(other)
 
 
 ron = Character("Ron", 100, 100, 10)
 bon = Character("Bon", 100, 100,  10)
 ellen = Healer("Ellen", 90, 90, 0, 10)
-wizzy = Mage("Wizzy", 80, 80, 10, 1.5, 100, 0.2, 1.2)
+wizzy = Mage("Wizzy", 80, 80, 10, 1.5, 100, 0.2, 1.2, 20)
 bonkus = Barbarian("Bonkus",110, 110, 10, 1.2, 0.4, 1.5, 10, 0.6)
 
 while wizzy.alive() and bonkus.alive():
-    wizzy.fireball(bonkus)
-    bonkus.blind_rage(wizzy)
+    wizzy.action(bonkus)
+    bonkus.action(wizzy)
 
 
 # ron.hit(bon)
