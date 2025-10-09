@@ -61,6 +61,9 @@ class Character:
     def alive(self):
         return self._current_health > 0
 
+    def respawn(self):
+        self._current_health = self.max_health
+
 class Healer(Character):
     def __init__(self, name, max_health, _current_health, attackpower, healpower):
         super().__init__(name, max_health, _current_health, attackpower, healpower=healpower)
@@ -83,7 +86,7 @@ class Mage(Character):
     def fireball(self, other,):
         damage = self.attackpower * self.attack_multiplier
         crit = random.random()
-        mana_loss = self.mana - self.mana_loss
+        # mana_loss = self.mana - self.mana_loss
         if crit < self.crit_chance:
             damage *= self.crit_damage
         mana_loss = self.mana - self.mana_loss
@@ -109,7 +112,7 @@ class Barbarian(Character):
 
     def blind_rage(self, other):
         if random.random() < self.miss_chance:
-            damage = self.attackpower * 1.7
+            damage = self.attackpower * 1.8
             crit = random.random()
             if crit < self.crit_chance:
                 damage *= self.crit_damage
@@ -126,16 +129,33 @@ class Barbarian(Character):
             self.hit(other)
 
 
+
 ron = Character("Ron", 100, 100, 10)
 bon = Character("Bon", 100, 100,  10)
 ellen = Healer("Ellen", 90, 90, 0, 10)
 wizzy = Mage("Wizzy", 80, 80, 10, 1.5, 100, 0.2, 1.2, 20)
 bonkus = Barbarian("Bonkus",110, 110, 10, 1.2, 0.4, 1.5, 10, 0.6)
 
-while wizzy.alive() and bonkus.alive():
-    wizzy.action(bonkus)
-    bonkus.action(wizzy)
+wizzy_wins = 0
+bonkus_wins = 0
 
+for x in range(100):
+    wizzy.respawn()
+    bonkus.respawn()
+
+    while wizzy.alive() and bonkus.alive():
+        if random.random() > 0.5:
+            wizzy.action(bonkus)
+            if bonkus.alive():
+                bonkus.action(wizzy)
+        else:
+            bonkus.action(wizzy)
+            if wizzy.alive():
+                wizzy.action(bonkus)
+    if wizzy.alive():
+        wizzy_wins += 1
+    else:
+        bonkus_wins += 1
 
 # ron.hit(bon)
 # print(bon)
@@ -144,5 +164,5 @@ while wizzy.alive() and bonkus.alive():
 # wizzy.fireball(bon)
 # wizzy.fireball(bon)
 # bonkus.blind_rage(bon)
-print(wizzy)
-print(bonkus)
+print(wizzy_wins)
+print(bonkus_wins)
