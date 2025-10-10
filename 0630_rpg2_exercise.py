@@ -32,7 +32,7 @@ Når dit program er færdigt, skal du skubbe det til dit github-repository.
 import random
 
 class Character:
-    def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier=1.0, mana=0, healpower=0, crit_chance=0.0, crit_damage=1.0):
+    def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier=1.0, mana=0, healpower=0, crit_chance=0.0, crit_damage=1.0, max_mana=0):
         self.name = name
         self.max_health = max_health
         self._current_health = _current_health
@@ -42,6 +42,7 @@ class Character:
         self.healpower = healpower
         self.crit_chance = crit_chance
         self.crit_damage = crit_damage
+        self.max_mana = max_mana
 
     def __repr__(self):
         return F"Name: {self.name},\n Max health: {self.max_health}, Current health: {self._current_health}, Attack power: {self.attackpower}"
@@ -63,6 +64,7 @@ class Character:
 
     def respawn(self):
         self._current_health = self.max_health
+        self.mana = self.max_mana
 
 class Healer(Character):
     def __init__(self, name, max_health, _current_health, attackpower, healpower):
@@ -79,18 +81,20 @@ class Healer(Character):
         pass
 
 class Mage(Character):
-    def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier, mana, crit_chance, crit_damage, mana_loss):
-        super().__init__(name, max_health, _current_health, attackpower, attack_multiplier=attack_multiplier, mana=mana, crit_chance=crit_chance, crit_damage=crit_damage)
-        self.mana_loss = mana_loss
+    def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier, mana, max_mana, crit_chance, crit_damage):
+        super().__init__(name, max_health, _current_health, attackpower, attack_multiplier=attack_multiplier, mana=mana, max_mana=max_mana, crit_chance=crit_chance, crit_damage=crit_damage)
 
     def fireball(self, other,):
         damage = self.attackpower * self.attack_multiplier
         crit = random.random()
-        # mana_loss = self.mana - self.mana_loss
         if crit < self.crit_chance:
             damage *= self.crit_damage
-        mana_loss = self.mana - self.mana_loss
-        self.hit(other, damage, mana_loss)
+        if self.mana >= 10:
+            self.mana -= 10
+            self.hit(other, damage)
+
+    def meditate(self):
+        self.mana += 60
 
     def hit(self, other, damage=None, mana_loss=None):
         if damage is None:
@@ -98,11 +102,13 @@ class Mage(Character):
         other.get_hit(self, damage)
 
     def action(self, other): # chooses one of the class actions and calls it
-        if random.random() > 0.6:
-            self.fireball(other)
+        if self.mana < 10:
+            self.meditate()
         else:
-            self.hit(other)
-        pass
+            if random.random() > 0.6:
+                self.fireball(other)
+            else:
+                self.hit(other)
 
 class Barbarian(Character):
     def __init__(self, name, max_health, _current_health, attackpower, attack_multiplier, crit_chance, crit_damage, self_damage, miss_chance):
@@ -112,7 +118,7 @@ class Barbarian(Character):
 
     def blind_rage(self, other):
         if random.random() < self.miss_chance:
-            damage = self.attackpower * 1.8
+            damage = self.attackpower * 1.7
             crit = random.random()
             if crit < self.crit_chance:
                 damage *= self.crit_damage
