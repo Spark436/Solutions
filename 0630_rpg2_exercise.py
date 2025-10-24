@@ -139,8 +139,8 @@ class Barbarian(Character):
 ron = Character("Ron", 100, 100, 10)
 bon = Character("Bon", 100, 100,  10)
 ellen = Healer("Ellen", 90, 90, 0, 10)
-wizzy = Mage("Wizzy", 80, 80, 10, 1.5, 100, 0.2, 1.2, 1.3)
-bonkus = Barbarian("Bonkus",110, 110, 10, 1.3, 0.4, 1.5, 10, 0.6)
+wizzy = Mage("Wizzy", 80, 80, 10, 1.5, 100, 100, 0.2, 1.2)
+bonkus = Barbarian("Bonkus",110, 110, 10, 1.2, 0.4, 1.5, 10, 0.6)
 
 wizzy_wins = 0
 bonkus_wins = 0
