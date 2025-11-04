@@ -16,10 +16,24 @@ Når dit program er færdigt, skal du skubbe det til dit github-repository.
 
 import tkinter as tk
 
+padx = 5
+pady = 5
+
 main_window = tk.Tk()
 main_window.title('My first GUI')
-main_window.geometry("100x170")
+main_window.geometry("500x500")
 
+frame_1 = tk.LabelFrame(main_window, text="Container")
+frame_1.grid(row=0, column=0, padx=padx, pady=pady, sticky=tk.N)
+
+label_1 = tk.Label(frame_1, text="ID")
+label_1.grid(row=1, column=1, padx=padx, pady=pady)
+
+entry_1 = tk.Entry(frame_1,)
+entry_1.grid(row=2, column=1, padx=padx, pady=pady)
+
+button_1 = tk.Button(frame_1, text="Create")
+button_1.grid(row=3, column=1, padx=padx, pady=pady)
 
 if __name__ == "__main__":
     main_window.mainloop()
