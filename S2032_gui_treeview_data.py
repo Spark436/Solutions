@@ -1,13 +1,10 @@
-""" Tilføjede nogle globale variabler, som definerer farverne i treeview.
-Der er blevet tilføjet en treeview-stil. Dette får treeviewet til at se ud som
-lidt pænere og bruger de globale farvevariabler.
+""" Tilføjede testdata til treeview'en.
 
 Kør programmet.
-Læs alle kommentarerne.
-Find ud af, hvad hver række kode gør. F.eks. ved at ændre koden lidt og køre den igen.
+Læs alle kommentarer.
+Find ud af, hvad hver række kode gør. F.eks. ved at ændre koden en smule og køre den igen.
 
-Lige nu kan du ikke se meget af formateringens effekt. Det vil ændre sig snart, når vi får data i treeview'en.
-"""
+Vær særlig opmærksom på, hvordan dataene føres ind i treeview'en."""
 
 import tkinter as tk
 from tkinter import ttk   # we need this additional import for our treeview widget
@@ -18,22 +15,42 @@ def empty_entry():  # Delete text in the entry box
     entry_1.delete(0, tk.END)
 
 
+def read_table(tree):  # fill tree with test data
+    for record in test_data_list:
+        tree.insert(parent='', index='end', text='', values=record)  # Insert one row into the data table
+
+
 padx = 8
 pady = 4
-rowheight = 24  # rowheight in treeview
-treeview_background = "#333333"  # color of background in treeview
-treeview_foreground = "black"  # color of foreground in treeview
-treeview_selected = "#773333"  # color of selected row in treeview
+rowheight = 24
+treeview_background = "#eeeeee"
+treeview_foreground = "black"
+treeview_selected = "#773333"
+
+
+# add test data by hard coding a list of tuples
+test_data_list = []
+test_data_list.append(("1", "1000", "oslo"))
+test_data_list.append(("2", "2000", "chicago"))
+test_data_list.append(("3", "3000", "milano"))
+test_data_list.append(("4", "4000", "amsterdam"))
+test_data_list.append(("1", "1000", "oslo"))
+test_data_list.append(("2", "2000", "chicago"))
+test_data_list.append(("3", "3000", "milano"))
+test_data_list.append(("4", "4000", "amsterdam"))
+test_data_list.append(("1", "1000", "oslo"))
+test_data_list.append(("2", "2000", "chicago"))
+test_data_list.append(("3", "3000", "milano"))
+test_data_list.append(("4", "4000", "amsterdam"))
 
 main_window = tk.Tk()
 main_window.title('my first GUI')
-main_window.geometry("900x500")  # we've made the window a bit wider
+main_window.geometry("900x500")
 
-# Configure treeview style and colors
-style = ttk.Style()  # Add style
-style.theme_use('default')  # Pick theme
+style = ttk.Style()  # Configure treeview style and colors
+style.theme_use('default')
 style.configure("Treeview", background=treeview_background, foreground=treeview_foreground, rowheight=rowheight, fieldbackground=treeview_background)
-style.map('Treeview', background=[('selected', treeview_selected)])  # Define color of selected row in treeview
+style.map('Treeview', background=[('selected', treeview_selected)])
 
 tree_1_scrollbar = tk.Scrollbar(main_window)  # create a scrollbar and a treeview
 tree_1_scrollbar.grid(row=5, column=6, padx=padx, pady=pady, sticky='ns')
@@ -65,6 +82,7 @@ entry_1 = tk.Entry(frame_1, width=24, justify="right")  # Create an entry
 entry_1.grid(row=1, column=2, padx=padx, pady=pady)
 entry_1.insert(0, "This is an entry. Edit me!")
 
+read_table(tree_1)  # read the test data into the treeview
 
 if __name__ == "__main__":
     main_window.mainloop()

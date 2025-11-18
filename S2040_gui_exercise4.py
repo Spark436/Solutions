@@ -1,4 +1,4 @@
-"""Opgave "GUI step 3":
+""" Opgave "GUI step 4":
 
 Som altid skal du læse hele opgavebeskrivelsen omhyggeligt, før du begynder at løse opgaven.
 
@@ -6,29 +6,21 @@ Kopier denne fil til din egen løsningsmappe. Skriv din løsning ind i kopien.
 
 --------
 
-Bruge det, du har lært i GUI-eksempelfilerne, og byg den GUI, der er afbildet i images/gui_2030.png
+Bruge det, du har lært i GUI-eksempelfilerne, og byg den GUI, der er afbildet i images/gui_2040.png
 
-Genbrug din kode fra "GUI step 2".
+Genbrug din kode fra "GUI step 3".
 
-GUI-strukturen bør være som følger:
-    main window
-        labelframe
-            frame
-                treeview and scrollbar
-            frame
-                labels and entries
-            frame
-                buttons
+Fyld treeview'en med testdata.
+Leg med farveværdierne. Find en farvekombination, som du kan lide.
 
 Funktionalitet:
     Klik på knappen "clear entry boxes" sletter teksten i alle indtastningsfelter (entries).
+    Hvis du klikker på en datarække i træoversigten, kopieres dataene i denne række til indtastningsfelterne.
 
 --------
 
 Når dit program er færdigt, skal du skubbe det til dit github-repository.
 """
-
-
 
 import tkinter as tk
 from tkinter import ttk
@@ -38,6 +30,10 @@ def empty_entry():
     entry_2.delete(0, tk.END)
     entry_3.delete(0, tk.END)
     entry_4.delete(0, tk.END)
+
+def read_table(tree):
+    for record in test_data_list:
+        tree.insert(parent='', index='end', text='', values=record)
 
 padx = 10
 pady = 7
@@ -49,6 +45,12 @@ treeview_selected = "#ff00d4"
 main_window = tk.Tk()
 main_window.title('My first GUI')
 main_window.geometry("490x450")
+
+test_data_list = []
+test_data_list.append(("1", "1000", "oslo"))
+test_data_list.append(("2", "2000", "chicago"))
+test_data_list.append(("3", "3000", "milano"))
+test_data_list.append(("4", "4000", "amsterdam"))
 
 labelframe = tk.LabelFrame(main_window, text="Container")
 labelframe.grid(row=0, column=0, padx=padx, pady=pady, sticky=tk.N)
@@ -119,6 +121,8 @@ button_3.grid(row=1, column=3, padx=padx, pady=pady)
 
 button_4 = tk.Button(frame_2, text="Clear entry boxes", command=empty_entry)
 button_4.grid(row=1, column=4, padx=padx, pady=pady)
+
+read_table(tree_1)
 
 if __name__ == "__main__":
     main_window.mainloop()
