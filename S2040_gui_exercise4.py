@@ -35,6 +35,16 @@ def read_table(tree):
     for record in test_data_list:
         tree.insert(parent='', index='end', text='', values=record)
 
+def edit_record(event, tree):
+    index_selected = tree.focus()
+    values = tree.item(index_selected, 'values')
+    entry_1.delete(0, tk.END)
+    entry_2.delete(1, tk.END)
+    entry_3.delete(2, tk.END)
+    entry_1.insert(0, values[1])
+    entry_2.insert(1, values[2])
+    entry_3.insert(2, values[3])
+
 padx = 10
 pady = 7
 rowheight = 24
@@ -85,6 +95,8 @@ tree_1.heading("#0", text="", anchor=tk.W)
 tree_1.heading("col1", text="Id", anchor=tk.CENTER)
 tree_1.heading("col2", text="Weight", anchor=tk.CENTER)
 tree_1.heading("col3", text="Destination", anchor=tk.CENTER)
+
+tree_1.bind("<ButtonRelease-1>", lambda event: edit_record(event, tree_1))
 
 label_1 = tk.Label(frame_1, text="Id")
 label_1.grid(row=1, column=1, padx=padx, pady=pady)
