@@ -39,11 +39,11 @@ def edit_record(event, tree):
     index_selected = tree.focus()
     values = tree.item(index_selected, 'values')
     entry_1.delete(0, tk.END)
-    entry_2.delete(1, tk.END)
-    entry_3.delete(2, tk.END)
-    entry_1.insert(0, values[1])
-    entry_2.insert(1, values[2])
-    entry_3.insert(2, values[3])
+    entry_2.delete(0, tk.END)
+    entry_3.delete(0, tk.END)
+    entry_1.insert(0, values[0])
+    entry_2.insert(1, values[1])
+    entry_3.insert(2, values[2])
 
 padx = 10
 pady = 7
