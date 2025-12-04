@@ -16,6 +16,12 @@ main_window = tk.Tk()
 main_window.title("Calculator")
 main_window.geometry("500x500")
 
+def empty_entry():
+    entry_1.delete(0, tk.END)
+
+def one():
+    entry_1.insert(0, "1")
+
 padx = 5
 pady = 5
 font = tkfont.Font(family="Helvetica", size=30, weight="bold")
@@ -37,7 +43,9 @@ entry_1.grid(row=1, column=1, padx=padx, pady=pady)
 # add one functional button then copy that to 13 other buttons. The buttons should have labels as 0-9, +, -, *, /.
 # Set the buttons in rows of four with 3 numbers and one math symbol at the end and have the last row be 0 and =, 0 being centered and = being pushed to the right.
 # Add a button that clears the entry labeled C
-button_1 = tk.Button(frame_2, text="1", width=3, font=font)
+button_1 = tk.Button(frame_2, text="1", width=3, font=font, command=one)
 button_1.grid(row=2, column=1, padx=padx, pady=pady)
+button_c = tk.Button(frame_2, text="C", width=3, font=font, command=empty_entry)
+button_c.grid(row=2,column=2, padx=padx, pady=pady)
 if __name__ == "__main__":
     main_window.mainloop()
