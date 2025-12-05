@@ -20,7 +20,22 @@ def empty_entry():
     entry_1.delete(0, tk.END)
 
 def insert_number(number):
-    entry_1.insert(0, str(number))
+    entry_1.insert(100, str(number))
+
+def addition():
+    entry_1.insert(100, "+")
+
+def subtraction():
+    entry_1.insert(100, "-")
+
+def multiplication():
+    entry_1.insert(100, "*")
+
+def division():
+    entry_1.insert(100, "/")
+
+def equal():
+    entry_1.insert(100, "=")
 
 padx = 5
 pady = 5
@@ -44,13 +59,33 @@ entry_1.grid(row=1, column=1, padx=padx, pady=pady)
 # Set the buttons in rows of four with 3 numbers and one math symbol at the end and have the last row be 0 and =, 0 being centered and = being pushed to the right.
 # Add a button that clears the entry labeled C
 number_buttons = []
-for number in range(9):
-    button = tk.Button(frame_2, text=str(number), width=3, font=font, command=lambda: insert_number(number))
+for number in range(10):
+    button = tk.Button(frame_2, text=str(number), width=3, font=font, command=lambda n=number: insert_number(n))
     button.grid(row=number//3+2, column=number%3, padx=padx, pady=pady)
     number_buttons.append(button)
-# button_1 = tk.Button(frame_2, text="1", width=3, font=font, command=one)
-# button_1.grid(row=2, column=1, padx=padx, pady=pady)
-# button_c = tk.Button(frame_2, text="C", width=3, font=font, command=empty_entry)
-# button_c.grid(row=2,column=2, padx=padx, pady=pady)
+
+button_c = tk.Button(frame_2, text="C", width=3, font=font, command=empty_entry)
+button_c.grid(row=2,column=3, padx=padx, pady=pady)
+
+button_addition = tk.Button(frame_2, text="+", width=3, font=font, command=addition)
+button_addition.grid(row=5, column=3, padx=padx, pady=pady)
+
+button_subtract = tk.Button(frame_2, text="-", width=3, font=font, command=subtraction)
+button_subtract.grid(row=4, column=3, padx=padx, pady=pady)
+
+button_multiply = tk.Button(frame_2, text="*", width=3, font=font, command=multiplication)
+button_multiply.grid(row=5, column=1, padx=padx, pady=pady)
+
+button_divide = tk.Button(frame_2, text="/", width=3, font=font, command=division)
+button_divide.grid(row=5, column=2, padx=padx, pady=pady)
+
+button_equal = tk.Button(frame_2, text="=", width=3, font=font, command=equal)
+button_equal.grid(row=3, column=3, padx=padx, pady=pady)
+
 if __name__ == "__main__":
     main_window.mainloop()
+
+
+
+# button_1 = tk.Button(frame_2, text="1", width=3, font=font, command=one)
+# button_1.grid(row=2, column=1, padx=padx, pady=pady)
