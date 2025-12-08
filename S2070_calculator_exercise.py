@@ -19,6 +19,9 @@ main_window.geometry("500x500")
 def empty_entry():
     entry_1.delete(0, tk.END)
 
+def calculate():
+    print (eval(entry_1.get()))
+
 def insert_number(number):
     entry_1.insert(100, str(number))
 
@@ -79,7 +82,7 @@ button_multiply.grid(row=5, column=1, padx=padx, pady=pady)
 button_divide = tk.Button(frame_2, text="/", width=3, font=font, command=division)
 button_divide.grid(row=5, column=2, padx=padx, pady=pady)
 
-button_equal = tk.Button(frame_2, text="=", width=3, font=font, command=equal)
+button_equal = tk.Button(frame_2, text="=", width=3, font=font, command=calculate)
 button_equal.grid(row=3, column=3, padx=padx, pady=pady)
 
 if __name__ == "__main__":
