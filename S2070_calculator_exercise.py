@@ -20,7 +20,9 @@ def empty_entry():
     entry_1.delete(0, tk.END)
 
 def calculate():
-    print (eval(entry_1.get()))
+    result =  str(eval(entry_1.get()))
+    entry_1.delete(0, tk.END)
+    entry_1.insert(100, result)
 
 def insert_number(number):
     entry_1.insert(100, str(number))
@@ -54,7 +56,7 @@ frame_2 = tk.Frame(labelframe)
 frame_2.grid(row=2)
 
 # Add an entry where the math questions should go and have it be at the top of the entry above the buttons.
-entry_1 = tk.Entry(frame_1, width=21, font=font)
+entry_1 = tk.Entry(frame_1, justify="right", width=21, font=font)
 entry_1.grid(row=1, column=1, padx=padx, pady=pady)
 
 
