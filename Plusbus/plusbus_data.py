@@ -2,7 +2,7 @@ from sqlalchemy.orm import declarative_base, Session  # install sqlalchemy with 
 from sqlalchemy import Column, String, Integer  # the library sqlalchemy helps us to work with a database
 from sqlalchemy import create_engine, select
 
-Database = 'sqlite:///2206_my_first_sql_database.db'
+Database = 'sqlite:///plusbus.db'
 Base = declarative_base()
 
 
@@ -10,24 +10,20 @@ class Customer(Base):
     __tablename__ = "customers"
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    age = Column(Integer)
+    contact = Column(String)
 
     def __repr__(self):  # Only for testing/debugging purposes.
-        return f"Customer({self.id=}    {self.name=}    {self.age=})"
+        return f"Customer({self.id=}    {self.name=}    {self.contact=})"
 
     def convert_to_tuple(self):  # Convert Customer to tuple
-        return self.id, self.name, self.age
+        return self.id, self.name, self.contact
 
-    def valid(self):  # is this object a valid record of a person?
-        try:
-            value = int(self.age)
-        except ValueError:
-            return False
-        return value >= 0
+    def valid(self):  # is this object a valid record of a customer?
+        return self.contact != "deleted"
 
     @staticmethod
     def convert_from_tuple(tuple_):  # Convert tuple to Customer
-        person = Customer(id=tuple_[0], name=tuple_[1], age=tuple_[2])
+        person = Customer(id=tuple_[0], name=tuple_[1], customer=tuple_[2])
         return person
 
 
