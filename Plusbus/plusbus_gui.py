@@ -17,19 +17,13 @@ def read_customer_entries():  # Read content of entry boxes
 
 def clear_customer_entries():  # Clear entry boxes
     entry_customer_id.delete(0, tk.END)  # Delete text in entry box, beginning with the first character (0) and ending with the last character (tk.END)
-    entry_customer_weight.delete(0, tk.END)
-    entry_customer_destination.delete(0, tk.END)
-    entry_customer_weather.delete(0, tk.END)
-
-    # region common functions
-    def refresh_treeview(tree, class_):  # Refresh treeview table
-        empty_treeview(tree)  # Clear treeview table
-        read_table(tree, class_)  # Fill treeview from database
+    entry_customer_last_name.delete(0, tk.END)
+    entry_customer_contact_info.delete(0, tk.END)
 
 # region common widgets
 main_window = tk.Tk()  # Define the main window
-main_window.title('Plusbus')  # Text shown in the top window bar
-main_window.geometry("500x500")  # window size
+main_window.title('AspIT S2: DanskCargo')  # Text shown in the top window bar
+main_window.geometry("1200x500")  # window size
 
 style = ttk.Style()  # Add style
 style.theme_use('default')  # Pick theme
@@ -49,12 +43,14 @@ tree_container.grid(row=0, column=0, padx=0, pady=pady)
 tree_scroll_container.config(command=tree_container.yview)
 
 # Define the data table's formatting and content
-tree_container['columns'] = ("id", "last name", "contact")  # Define columns
+tree_container['columns'] = ("id", "last name", "Contact info")  # Define columns
 tree_container.column("#0", width=0, stretch=tk.NO)  # Format columns. Suppress the irritating first empty column.
 tree_container.column("id", anchor=tk.E, width=40)  # "E" stands for East, meaning Right. Possible anchors are N, NE, E, SE, S, SW, W, NW and CENTER
-tree_container.column("last name", anchor=tk.E, width=80)
-tree_container.column("contact", anchor=tk.W, width=200)
-
-if __name__ == "__main__":  # Executed when invoked directly. We use this so main_window.mainloop() does not keep our unit tests from running.
-    refresh_treeview(tree_container, dcd.Container)  # Load data from database
-    main_window.mainloop()  # Wait for button clicks and act upon them
+tree_container.column("weight", anchor=tk.E, width=80)
+tree_container.column("destination", anchor=tk.W, width=200)
+tree_container.heading("#0", text="", anchor=tk.W)  # Create column headings
+tree_container.heading("id", text="Id", anchor=tk.CENTER)
+tree_container.heading("weight", text="Last name", anchor=tk.CENTER)
+tree_container.heading("destination", text="Contact info", anchor=tk.CENTER)
+tree_container.tag_configure('oddrow', background=oddrow)  # Create tags for rows in 2 different colors
+tree_container.tag_configure('evenrow', background=evenrow)
