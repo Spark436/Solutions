@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
-import plusbus_data
+import plusbus_data as pbd
+import plusbus_sql as pbsql
 
 padx = 8  # Horizontal distance to neighboring objects
 pady = 4  # Vertical distance to neighboring objects
@@ -12,13 +13,43 @@ oddrow = "#dddddd"  # color of odd row in treeview
 evenrow = "#cccccc"
 
 def read_customer_entries():  # Read content of entry boxes
-    return entry_customer_id.get(), entry_customer_weight.get(), entry_customer_destination.get(),
+    return entry_customer_id.get(), entry_customer_last_name.get(), entry_customer_contact_info.get(),
 
 
 def clear_customer_entries():  # Clear entry boxes
     entry_customer_id.delete(0, tk.END)  # Delete text in entry box, beginning with the first character (0) and ending with the last character (tk.END)
     entry_customer_last_name.delete(0, tk.END)
     entry_customer_contact_info.delete(0, tk.END)
+
+def write_customer_entries(values):  # Fill entry boxes
+        entry_customer_id.insert(0, values[0])
+        entry_customer_last_name.insert(0, values[1])
+        entry_customer_contact_info.insert(0, values[2])
+
+
+def edit_customer(_, tree):  # Copy selected tuple into entry boxes. First parameter is mandatory but we don't use it.
+        index_selected = tree.focus()  # Index of selected tuple
+        values = tree.item(index_selected, 'values')  # Values of selected tuple
+        clear_customer_entries()  # Clear entry boxes
+        write_customer_entries(values)  # Fill entry boxes
+
+def read_table(tree, class_):  # fill tree from database
+    count = 0  # Used to keep track of odd and even rows, because these will be colored differently.
+    result = pbsql.select_all(class_)  # Read all customers from database
+    for record in result:
+        if record.valid():  # this condition excludes soft deleted records from being shown in the data table
+            if count % 2 == 0:  # even
+                tree.insert(parent='', index='end', iid=str(count), text='', values=record.convert_to_tuple(), tags=('evenrow',))  # Insert one row into the data table
+            else:  # odd
+                tree.insert(parent='', index='end', iid=str(count), text='', values=record.convert_to_tuple(), tags=('oddrow',))  # Insert one row into the data table
+            count += 1
+
+def refresh_treeview(tree, class_):  # Refresh treeview table
+    empty_treeview(tree)  # Clear treeview table
+    read_table(tree, class_)  # Fill treeview from database
+
+def empty_treeview(tree):  # Clear treeview table
+    tree.delete(*tree.get_children())
 
 # region common widgets
 main_window = tk.Tk()  # Define the main window
@@ -28,29 +59,59 @@ main_window.geometry("1200x500")  # window size
 style = ttk.Style()  # Add style
 style.theme_use('default')  # Pick theme
 
-# region container widgets
-# Define Labelframe which contains all container related GUI objects (data table, labels, buttons, ...)
-frame_container = tk.LabelFrame(main_window, text="Container")  # https://www.tutorialspoint.com/python/tk_labelframe.htm
-frame_container.grid(row=0, column=0, padx=padx, pady=pady, sticky=tk.N)  # https://www.tutorialspoint.com/python/tk_grid.htm
+# region customer widgets
+# Define Labelframe which contains all customer related GUI objects (data table, labels, buttons, ...)
+frame_customer = tk.LabelFrame(main_window, text="Customer")  # https://www.tutorialspoint.com/python/tk_labelframe.htm
+frame_customer.grid(row=0, column=0, padx=padx, pady=pady, sticky=tk.N)  # https://www.tutorialspoint.com/python/tk_grid.htm
 
 # Define data table (Treeview) and its scrollbar. Put them in a Frame.
-tree_frame_container = tk.Frame(frame_container)  # https://www.tutorialspoint.com/python/tk_frame.htm
-tree_frame_container.grid(row=0, column=0, padx=padx, pady=pady)
-tree_scroll_container = tk.Scrollbar(tree_frame_container)
-tree_scroll_container.grid(row=0, column=1, padx=0, pady=pady, sticky='ns')
-tree_container = ttk.Treeview(tree_frame_container, yscrollcommand=tree_scroll_container.set, selectmode="browse")  # https://docs.python.org/3/library/tkinter.ttk.html#treeview
-tree_container.grid(row=0, column=0, padx=0, pady=pady)
-tree_scroll_container.config(command=tree_container.yview)
+tree_frame_customer = tk.Frame(frame_customer)  # https://www.tutorialspoint.com/python/tk_frame.htm
+tree_frame_customer.grid(row=0, column=0, padx=padx, pady=pady)
+tree_scroll_customer = tk.Scrollbar(tree_frame_customer)
+tree_scroll_customer.grid(row=0, column=1, padx=0, pady=pady, sticky='ns')
+tree_customer = ttk.Treeview(tree_frame_customer, yscrollcommand=tree_scroll_customer.set, selectmode="browse")  # https://docs.python.org/3/library/tkinter.ttk.html#treeview
+tree_customer.grid(row=0, column=0, padx=0, pady=pady)
+tree_scroll_customer.config(command=tree_customer.yview)
 
 # Define the data table's formatting and content
-tree_container['columns'] = ("id", "last name", "Contact info")  # Define columns
-tree_container.column("#0", width=0, stretch=tk.NO)  # Format columns. Suppress the irritating first empty column.
-tree_container.column("id", anchor=tk.E, width=40)  # "E" stands for East, meaning Right. Possible anchors are N, NE, E, SE, S, SW, W, NW and CENTER
-tree_container.column("weight", anchor=tk.E, width=80)
-tree_container.column("destination", anchor=tk.W, width=200)
-tree_container.heading("#0", text="", anchor=tk.W)  # Create column headings
-tree_container.heading("id", text="Id", anchor=tk.CENTER)
-tree_container.heading("weight", text="Last name", anchor=tk.CENTER)
-tree_container.heading("destination", text="Contact info", anchor=tk.CENTER)
-tree_container.tag_configure('oddrow', background=oddrow)  # Create tags for rows in 2 different colors
-tree_container.tag_configure('evenrow', background=evenrow)
+tree_customer['columns'] = ("id", "last name", "Contact info")  # Define columns
+tree_customer.column("#0", width=0, stretch=tk.NO)  # Format columns. Suppress the irritating first empty column.
+tree_customer.column("id", anchor=tk.E, width=40)  # "E" stands for East, meaning Right. Possible anchors are N, NE, E, SE, S, SW, W, NW and CENTER
+tree_customer.column("last name", anchor=tk.E, width=80)
+tree_customer.column("Contact info", anchor=tk.W, width=200)
+tree_customer.heading("#0", text="", anchor=tk.W)  # Create column headings
+tree_customer.heading("id", text="Id", anchor=tk.CENTER)
+tree_customer.heading("last name", text="Last name", anchor=tk.CENTER)
+tree_customer.heading("Contact info", text="Contact info", anchor=tk.CENTER)
+tree_customer.tag_configure('oddrow', background=oddrow)  # Create tags for rows in 2 different colors
+tree_customer.tag_configure('evenrow', background=evenrow)
+
+# Define Frame which contains labels, entries and buttons
+controls_frame_customer = tk.Frame(frame_customer)
+controls_frame_customer.grid(row=3, column=0, padx=padx, pady=pady)
+
+
+# Define Frame which contains labels (text fields) and entries (input fields)
+edit_frame_customer = tk.Frame(controls_frame_customer)  # Add tuple entry boxes
+edit_frame_customer.grid(row=0, column=0, padx=padx, pady=pady)
+# label and entry for customer id
+label_customer_id = tk.Label(edit_frame_customer, text="Id")  # https://www.tutorialspoint.com/python/tk_label.htm
+label_customer_id.grid(row=0, column=0, padx=padx, pady=pady)
+entry_customer_id = tk.Entry(edit_frame_customer, width=4, justify="right")  # https://www.tutorialspoint.com/python/tk_entry.htm
+entry_customer_id.grid(row=1, column=0, padx=padx, pady=pady)
+# label and entry for customer last_name
+label_customer_last_name = tk.Label(edit_frame_customer, text="Weight")
+label_customer_last_name.grid(row=0, column=1, padx=padx, pady=pady)
+entry_customer_last_name = tk.Entry(edit_frame_customer, width=8, justify="right")
+entry_customer_last_name.grid(row=1, column=1, padx=padx, pady=pady)
+# label and entry for customer contact_info
+label_customer_contact_info = tk.Label(edit_frame_customer, text="Destination")
+label_customer_contact_info.grid(row=0, column=2, padx=padx, pady=pady)
+entry_customer_contact_info = tk.Entry(edit_frame_customer, width=20)
+entry_customer_contact_info.grid(row=1, column=2, padx=padx, pady=pady)
+
+# region main program
+if __name__ == "__main__":  # Executed when invoked directly. We use this so main_window.mainloop() does not keep our unit tests from running.
+    refresh_treeview(tree_customer, pbd.Customer)  # Load data from database
+    main_window.mainloop()  # Wait for button clicks and act upon them
+# endregion main program
