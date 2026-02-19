@@ -74,14 +74,14 @@ tree_customer.grid(row=0, column=0, padx=0, pady=pady)
 tree_scroll_customer.config(command=tree_customer.yview)
 
 # Define the data table's formatting and content
-tree_customer['columns'] = ("id", "last name", "Contact info")  # Define columns
+tree_customer['columns'] = ("Id", "Last name", "Contact info")  # Define columns
 tree_customer.column("#0", width=0, stretch=tk.NO)  # Format columns. Suppress the irritating first empty column.
-tree_customer.column("id", anchor=tk.E, width=40)  # "E" stands for East, meaning Right. Possible anchors are N, NE, E, SE, S, SW, W, NW and CENTER
-tree_customer.column("last name", anchor=tk.E, width=80)
+tree_customer.column("Id", anchor=tk.E, width=40)  # "E" stands for East, meaning Right. Possible anchors are N, NE, E, SE, S, SW, W, NW and CENTER
+tree_customer.column("Last name", anchor=tk.E, width=80)
 tree_customer.column("Contact info", anchor=tk.W, width=200)
 tree_customer.heading("#0", text="", anchor=tk.W)  # Create column headings
-tree_customer.heading("id", text="Id", anchor=tk.CENTER)
-tree_customer.heading("last name", text="Last name", anchor=tk.CENTER)
+tree_customer.heading("Id", text="Id", anchor=tk.CENTER)
+tree_customer.heading("Last name", text="Last name", anchor=tk.CENTER)
 tree_customer.heading("Contact info", text="Contact info", anchor=tk.CENTER)
 tree_customer.tag_configure('oddrow', background=oddrow)  # Create tags for rows in 2 different colors
 tree_customer.tag_configure('evenrow', background=evenrow)
@@ -100,12 +100,12 @@ label_customer_id.grid(row=0, column=0, padx=padx, pady=pady)
 entry_customer_id = tk.Entry(edit_frame_customer, width=4, justify="right")  # https://www.tutorialspoint.com/python/tk_entry.htm
 entry_customer_id.grid(row=1, column=0, padx=padx, pady=pady)
 # label and entry for customer last_name
-label_customer_last_name = tk.Label(edit_frame_customer, text="Weight")
+label_customer_last_name = tk.Label(edit_frame_customer, text="Last name")
 label_customer_last_name.grid(row=0, column=1, padx=padx, pady=pady)
 entry_customer_last_name = tk.Entry(edit_frame_customer, width=8, justify="right")
 entry_customer_last_name.grid(row=1, column=1, padx=padx, pady=pady)
 # label and entry for customer contact_info
-label_customer_contact_info = tk.Label(edit_frame_customer, text="Destination")
+label_customer_contact_info = tk.Label(edit_frame_customer, text="Contact info")
 label_customer_contact_info.grid(row=0, column=2, padx=padx, pady=pady)
 entry_customer_contact_info = tk.Entry(edit_frame_customer, width=20)
 entry_customer_contact_info.grid(row=1, column=2, padx=padx, pady=pady)
