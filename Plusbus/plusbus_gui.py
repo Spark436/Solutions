@@ -3,6 +3,9 @@ from tkinter import ttk
 import plusbus_data as pbd
 import plusbus_sql as pbsql
 
+# Add buttons that can update, delete and create customers
+# Add functions which will be called by the buttons
+
 padx = 8  # Horizontal distance to neighboring objects
 pady = 4  # Vertical distance to neighboring objects
 rowheight = 24  # rowheight in treeview
@@ -32,6 +35,12 @@ def edit_customer(_, tree):  # Copy selected tuple into entry boxes. First param
         values = tree.item(index_selected, 'values')  # Values of selected tuple
         clear_customer_entries()  # Clear entry boxes
         write_customer_entries(values)  # Fill entry boxes
+
+def create_customer(tree, record):  # add new tuple to database
+    customer = pbd.customer.convert_from_tuple(record)  # Convert tuple to customer
+    pbsql.create_record(customer)  # Update database
+    clear_customer_entries()  # Clear entry boxes
+    refresh_treeview(tree, dcd.customer)  # Refresh treeview table
 
 def read_table(tree, class_):  # fill tree from database
     count = 0  # Used to keep track of odd and even rows, because these will be colored differently.
@@ -109,6 +118,21 @@ label_customer_contact_info = tk.Label(edit_frame_customer, text="Contact info")
 label_customer_contact_info.grid(row=0, column=2, padx=padx, pady=pady)
 entry_customer_contact_info = tk.Entry(edit_frame_customer, width=20)
 entry_customer_contact_info.grid(row=1, column=2, padx=padx, pady=pady)
+
+
+# Define Frame which contains buttons
+button_frame_customer = tk.Frame(controls_frame_customer)
+button_frame_customer.grid(row=1, column=0, padx=padx, pady=pady)
+# Define buttons
+button_create_customer = tk.Button(button_frame_customer, text="Create", command=lambda: create_customer(tree_customer, read_customer_entries()))
+button_create_customer.grid(row=0, column=1, padx=padx, pady=pady)
+button_update_customer = tk.Button(button_frame_customer, text="Update", command=lambda: update_customer(tree_customer, read_customer_entries()))
+button_update_customer.grid(row=0, column=2, padx=padx, pady=pady)
+button_delete_customer = tk.Button(button_frame_customer, text="Delete", command=lambda: delete_customer(tree_customer, read_customer_entries()))
+button_delete_customer.grid(row=0, column=3, padx=padx, pady=pady)
+button_clear_boxes = tk.Button(button_frame_customer, text="Clear Entry Boxes", command=clear_customer_entries)
+button_clear_boxes.grid(row=0, column=4, padx=padx, pady=pady)
+# endregion customer widgets
 
 # region main program
 if __name__ == "__main__":  # Executed when invoked directly. We use this so main_window.mainloop() does not keep our unit tests from running.
