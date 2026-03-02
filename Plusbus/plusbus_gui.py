@@ -37,10 +37,10 @@ def edit_customer(_, tree):  # Copy selected tuple into entry boxes. First param
         write_customer_entries(values)  # Fill entry boxes
 
 def create_customer(tree, record):  # add new tuple to database
-    customer = pbd.customer.convert_from_tuple(record)  # Convert tuple to customer
+    customer = pbd.Customer.convert_from_tuple(record)  # Convert tuple to customer
     pbsql.create_record(customer)  # Update database
     clear_customer_entries()  # Clear entry boxes
-    refresh_treeview(tree, dcd.customer)  # Refresh treeview table
+    refresh_treeview(tree, pbd.Customer)  # Refresh treeview table
 
 def read_table(tree, class_):  # fill tree from database
     count = 0  # Used to keep track of odd and even rows, because these will be colored differently.

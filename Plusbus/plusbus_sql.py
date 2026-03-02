@@ -19,6 +19,12 @@ def select_all(classparam):  # https://docs.sqlalchemy.org/en/14/tutorial/data_s
             result.append(record)
     return result
 
+def create_record(record):
+        with Session(engine) as session:
+            session.add(record)
+            session.commit()
+
+
 if __name__ == "__main__":  # Executed when invoked directly
     engine = create_engine(Database, echo=False, future=True)  # https://docs.sqlalchemy.org/en/14/tutorial/engine.html   The start of any SQLAlchemy application is an object called the Engine. This object acts as a central source of connections to a particular database, providing both a factory as well as a holding space called a connection pool for these database connections. The engine is typically a global object created just once for a particular database server, and is configured using a URL string which will describe how it should connect to the database host or backend.
     Base.metadata.create_all(engine)
