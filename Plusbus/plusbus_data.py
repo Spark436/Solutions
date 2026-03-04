@@ -23,7 +23,7 @@ class Customer(Base):
 
     @staticmethod
     def convert_from_tuple(tuple_):  # Convert tuple to Customer
-        person = Customer(id=tuple_[0], name=tuple_[1], customer=tuple_[2])
+        person = Customer(id=tuple_[0], name=tuple_[1], contact=tuple_[2])
         return person
 
 
