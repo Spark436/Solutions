@@ -7,23 +7,23 @@ Base = declarative_base()
 
 
 class Customer(Base):
-    __tablename__ = "customers"
+    __tablelast_name__ = "customers"
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    contact = Column(String)
+    last_name = Column(String)
+    contact_info = Column(String)
 
     def __repr__(self):  # Only for testing/debugging purposes.
-        return f"Customer({self.id=}    {self.name=}    {self.contact=})"
+        return f"Customer({self.id=}    {self.last_name=}    {self.contact_info=})"
 
     def convert_to_tuple(self):  # Convert Customer to tuple
-        return self.id, self.name, self.contact
+        return self.id, self.last_name, self.contact_info
 
     def valid(self):  # is this object a valid record of a customer?
-        return self.contact != "deleted"
+        return self.contact_info != "deleted"
 
     @staticmethod
     def convert_from_tuple(tuple_):  # Convert tuple to Customer
-        person = Customer(id=tuple_[0], name=tuple_[1], contact=tuple_[2])
+        person = Customer(id=tuple_[0], last_name=tuple_[1], contact_info=tuple_[2])
         return person
 
 

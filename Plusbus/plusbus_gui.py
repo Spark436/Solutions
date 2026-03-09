@@ -43,7 +43,7 @@ def create_customer(tree, record):  # add new tuple to database
     refresh_treeview(tree, pbd.Customer)  # Refresh treeview table
 
 def update_customer(tree, record):
-    customer = pbd.Customer.convert_to_tuple(record)
+    customer = pbd.Customer.convert_from_tuple(record)
     pbsql.update_customer(customer)
     clear_customer_entries()
     refresh_treeview(tree, pbd.Customer)
