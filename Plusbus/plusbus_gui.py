@@ -42,6 +42,12 @@ def create_customer(tree, record):  # add new tuple to database
     clear_customer_entries()  # Clear entry boxes
     refresh_treeview(tree, pbd.Customer)  # Refresh treeview table
 
+def update_customer(tree, record):
+    customer = pbd.Customer.convert_to_tuple(record)
+    pbsql.update_customer(customer)
+    clear_customer_entries()
+    refresh_treeview(tree, pbd.Customer)
+
 def read_table(tree, class_):  # fill tree from database
     count = 0  # Used to keep track of odd and even rows, because these will be colored differently.
     result = pbsql.select_all(class_)  # Read all customers from database

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from sqlalchemy import create_engine, select#, update, delete
+from sqlalchemy import create_engine, select, update, delete
 # from datetime import date
 from plusbus_data import Customer, Base
 
@@ -8,6 +8,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy import event
 
 Database = 'sqlite:///plusbus.db'  # first part: database type, second part: file path
+
 
 def select_all(classparam):  # https://docs.sqlalchemy.org/en/14/tutorial/data_select.html
     # return a list of all records in classparams table
@@ -19,10 +20,19 @@ def select_all(classparam):  # https://docs.sqlalchemy.org/en/14/tutorial/data_s
             result.append(record)
     return result
 
+
 def create_record(record):
-        with Session(engine) as session:
-            session.add(record)
-            session.commit()
+    with Session(engine) as session:
+        session.add(record)
+        session.commit()
+
+
+def update_customer(customer):
+    with Session(engine) as session:
+        session.execute(update(Customer).where(Customer.id == customer.id).values(last_name=customer.last_name, contact_info=customer.contact_info))
+        session.commit()
+
+
 
 
 if __name__ == "__main__":  # Executed when invoked directly
