@@ -48,6 +48,12 @@ def update_customer(tree, record):
     clear_customer_entries()
     refresh_treeview(tree, pbd.Customer)
 
+def delete_customer(tree, record):
+    customer = pbd.Customer.convert_from_tuple(record)
+    pbsql.delete_customer(customer)
+    clear_customer_entries()
+    refresh_treeview(tree, pbd.Customer)
+
 def read_table(tree, class_):  # fill tree from database
     count = 0  # Used to keep track of odd and even rows, because these will be colored differently.
     result = pbsql.select_all(class_)  # Read all customers from database
@@ -100,6 +106,7 @@ tree_customer.heading("Last name", text="Last name", anchor=tk.CENTER)
 tree_customer.heading("Contact info", text="Contact info", anchor=tk.CENTER)
 tree_customer.tag_configure('oddrow', background=oddrow)  # Create tags for rows in 2 different colors
 tree_customer.tag_configure('evenrow', background=evenrow)
+tree_customer.bind("<ButtonRelease-1>", lambda event: edit_customer(event, tree_customer))
 
 # Define Frame which contains labels, entries and buttons
 controls_frame_customer = tk.Frame(frame_customer)

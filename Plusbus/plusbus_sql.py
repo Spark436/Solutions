@@ -33,6 +33,12 @@ def update_customer(customer):
         session.commit()
 
 
+def delete_customer(customer):
+    with Session(engine) as session:
+        session.execute(delete(Customer).where(Customer.id == customer.id))
+        session.commit()
+
+
 
 
 if __name__ == "__main__":  # Executed when invoked directly
