@@ -54,6 +54,45 @@ def delete_customer(tree, record):
     clear_customer_entries()
     refresh_treeview(tree, pbd.Customer)
 
+def read_travel_entries():  # Read content of entry boxes
+    return entry_travel_id.get(), entry_travel_last_name.get(), entry_travel_contact_info.get(),
+
+
+def clear_travel_entries():  # Clear entry boxes
+    entry_travel_id.delete(0, tk.END)  # Delete text in entry box, beginning with the first character (0) and ending with the last character (tk.END)
+    entry_travel_last_name.delete(0, tk.END)
+    entry_travel_contact_info.delete(0, tk.END)
+
+def write_travel_entries(values):  # Fill entry boxes
+        entry_travel_id.insert(0, values[0])
+        entry_travel_last_name.insert(0, values[1])
+        entry_travel_contact_info.insert(0, values[2])
+
+
+def edit_travel(_, tree):  # Copy selected tuple into entry boxes. First parameter is mandatory but we don't use it.
+        index_selected = tree.focus()  # Index of selected tuple
+        values = tree.item(index_selected, 'values')  # Values of selected tuple
+        clear_travel_entries()  # Clear entry boxes
+        write_travel_entries(values)  # Fill entry boxes
+
+def create_travel(tree, record):  # add new tuple to database
+    travel = pbd.Travel.convert_from_tuple(record)  # Convert tuple to travel
+    pbsql.create_record(travel)  # Update database
+    clear_travel_entries()  # Clear entry boxes
+    refresh_treeview(tree, pbd.Travel)  # Refresh treeview table
+
+def update_travel(tree, record):
+    travel = pbd.Travel.convert_from_tuple(record)
+    pbsql.update_travel(travel)
+    clear_travel_entries()
+    refresh_treeview(tree, pbd.Travel)
+
+def delete_travel(tree, record):
+    travel = pbd.Travel.convert_from_tuple(record)
+    pbsql.delete_travel(travel)
+    clear_travel_entries()
+    refresh_treeview(tree, pbd.Travel)
+
 def read_table(tree, class_):  # fill tree from database
     count = 0  # Used to keep track of odd and even rows, because these will be colored differently.
     result = pbsql.select_all(class_)  # Read all customers from database
@@ -147,8 +186,73 @@ button_clear_boxes = tk.Button(button_frame_customer, text="Clear Entry Boxes", 
 button_clear_boxes.grid(row=0, column=4, padx=padx, pady=pady)
 # endregion customer widgets
 
+frame_travel = tk.LabelFrame(main_window, text="travel")  # https://www.tutorialspoint.com/python/tk_labelframe.htm
+frame_travel.grid(row=0, column=1, padx=padx, pady=pady, sticky=tk.N)  # https://www.tutorialspoint.com/python/tk_grid.htm
+
+# Define data table (Treeview) and its scrollbar. Put them in a Frame.
+tree_frame_travel = tk.Frame(frame_travel)  # https://www.tutorialspoint.com/python/tk_frame.htm
+tree_frame_travel.grid(row=0, column=0, padx=padx, pady=pady)
+tree_scroll_travel = tk.Scrollbar(tree_frame_travel)
+tree_scroll_travel.grid(row=0, column=1, padx=0, pady=pady, sticky='ns')
+tree_travel = ttk.Treeview(tree_frame_travel, yscrollcommand=tree_scroll_travel.set, selectmode="browse")  # https://docs.python.org/3/library/tkinter.ttk.html#treeview
+tree_travel.grid(row=0, column=0, padx=0, pady=pady)
+tree_scroll_travel.config(command=tree_travel.yview)
+
+# Define the data table's formatting and content
+tree_travel['columns'] = ("Id", "Route", "Date", "Capacity")  # Define columns
+tree_travel.column("#0", width=0, stretch=tk.NO)  # Format columns. Suppress the irritating first empty column.
+tree_travel.column("Id", anchor=tk.E, width=40)  # "E" stands for East, meaning Right. Possible anchors are N, NE, E, SE, S, SW, W, NW and CENTER
+tree_travel.column("Route", anchor=tk.E, width=80)
+tree_travel.column("Date", anchor=tk.W, width=200)
+tree_travel.heading("#0", text="", anchor=tk.W)  # Create column headings
+tree_travel.heading("Id", text="Id", anchor=tk.CENTER)
+tree_travel.heading("Route", text="Route", anchor=tk.CENTER)
+tree_travel.heading("Date", text="Date", anchor=tk.CENTER)
+tree_travel.tag_configure('oddrow', background=oddrow)  # Create tags for rows in 2 different colors
+tree_travel.tag_configure('evenrow', background=evenrow)
+tree_travel.bind("<ButtonRelease-1>", lambda event: edit_travel(event, tree_travel))
+
+# Define Frame which contains labels, entries and buttons
+controls_frame_travel = tk.Frame(frame_travel)
+controls_frame_travel.grid(row=3, column=0, padx=padx, pady=pady)
+
+
+# Define Frame which contains labels (text fields) and entries (input fields)
+edit_frame_travel = tk.Frame(controls_frame_travel)  # Add tuple entry boxes
+edit_frame_travel.grid(row=0, column=0, padx=padx, pady=pady)
+# label and entry for travel id
+label_travel_id = tk.Label(edit_frame_travel, text="Id")  # https://www.tutorialspoint.com/python/tk_label.htm
+label_travel_id.grid(row=0, column=0, padx=padx, pady=pady)
+entry_travel_id = tk.Entry(edit_frame_travel, width=4, justify="right")  # https://www.tutorialspoint.com/python/tk_entry.htm
+entry_travel_id.grid(row=1, column=0, padx=padx, pady=pady)
+# label and entry for travel route
+label_travel_route = tk.Label(edit_frame_travel, text="Route")
+label_travel_route.grid(row=0, column=1, padx=padx, pady=pady)
+entry_travel_route = tk.Entry(edit_frame_travel, width=8, justify="right")
+entry_travel_route.grid(row=1, column=1, padx=padx, pady=pady)
+# label and entry for travel contact_info
+label_travel_contact_info = tk.Label(edit_frame_travel, text="Date")
+label_travel_contact_info.grid(row=0, column=2, padx=padx, pady=pady)
+entry_travel_contact_info = tk.Entry(edit_frame_travel, width=20)
+entry_travel_contact_info.grid(row=1, column=2, padx=padx, pady=pady)
+
+
+# Define Frame which contains buttons
+button_frame_travel = tk.Frame(controls_frame_travel)
+button_frame_travel.grid(row=1, column=0, padx=padx, pady=pady)
+# Define buttons
+button_create_travel = tk.Button(button_frame_travel, text="Create", command=lambda: create_travel(tree_travel, read_travel_entries()))
+button_create_travel.grid(row=0, column=1, padx=padx, pady=pady)
+button_update_travel = tk.Button(button_frame_travel, text="Update", command=lambda: update_travel(tree_travel, read_travel_entries()))
+button_update_travel.grid(row=0, column=2, padx=padx, pady=pady)
+button_delete_travel = tk.Button(button_frame_travel, text="Delete", command=lambda: delete_travel(tree_travel, read_travel_entries()))
+button_delete_travel.grid(row=0, column=3, padx=padx, pady=pady)
+button_clear_boxes = tk.Button(button_frame_travel, text="Clear Entry Boxes", command=clear_travel_entries)
+button_clear_boxes.grid(row=0, column=4, padx=padx, pady=pady)
+
 # region main program
 if __name__ == "__main__":  # Executed when invoked directly. We use this so main_window.mainloop() does not keep our unit tests from running.
-    refresh_treeview(tree_customer, pbd.Customer)  # Load data from database
+    refresh_treeview(tree_customer, pbd.Customer)# Load data from database
+    refresh_treeview(tree_travel, pbd.Travel)
     main_window.mainloop()  # Wait for button clicks and act upon them
 # endregion main program

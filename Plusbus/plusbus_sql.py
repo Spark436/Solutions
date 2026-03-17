@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, select, update, delete
 # from datetime import date
-from plusbus_data import Customer, Base
+from plusbus_data import Customer, Base, Travel
 
 # add the following 7 lines to make foreign key constraints work  https://docs.sqlalchemy.org/en/14/dialects/sqlite.html#sqlite-foreign-keys
 from sqlalchemy.engine import Engine
@@ -36,6 +36,17 @@ def update_customer(customer):
 def delete_customer(customer):
     with Session(engine) as session:
         session.execute(delete(Customer).where(Customer.id == customer.id))
+        session.commit()
+
+def update_travel(travel):
+    with Session(engine) as session:
+        session.execute(update(Travel).where(Travel.id == travel.id).values(route=travel.route, date=travel.date, capacity=travel.capacity))
+        session.commit()
+
+
+def delete_travel(travel):
+    with Session(engine) as session:
+        session.execute(delete(Travel).where(Travel.id == travel.id))
         session.commit()
 
 

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import declarative_base, Session  # install sqlalchemy with the command "pip install SQLAlchemy" in a terminal.
-from sqlalchemy import Column, String, Integer  # the library sqlalchemy helps us to work with a database
+from sqlalchemy import Column, String, Integer, Date  # the library sqlalchemy helps us to work with a database
 from sqlalchemy import create_engine, select
 
 Database = 'sqlite:///plusbus.db'
@@ -26,6 +26,26 @@ class Customer(Base):
         person = Customer(id=tuple_[0], last_name=tuple_[1], contact_info=tuple_[2])
         return person
 
+class Travel(Base):
+    __tablename__ = "travels"
+    id = Column(Integer, primary_key=True)
+    route = Column(String)
+    date = Column(Date)
+    capacity = Column(Integer)
+
+    def __repr__(self):
+        return f"Travel({self.id=} {self.route=} {self.date=} {self.capacity=})"
+
+    def convert_to_tuple(self):
+        return self.id, self.route, self.date, self.capacity
+
+    def valid(self):
+        return self.capacity >= 0
+
+    @staticmethod
+    def convert_from_tuple(tuple_):
+        travel_plan = Travel(id=tuple_[0], route=tuple_[1], date=tuple_[2], capacity=tuple_[3])
+        return travel_plan
 
 def select_all(classparam):  # return a list of all records in classparams table
     with Session(engine) as session:
