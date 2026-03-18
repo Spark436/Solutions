@@ -24,6 +24,7 @@ def clear_customer_entries():  # Clear entry boxes
     entry_customer_last_name.delete(0, tk.END)
     entry_customer_contact_info.delete(0, tk.END)
 
+
 def write_customer_entries(values):  # Fill entry boxes
         entry_customer_id.insert(0, values[0])
         entry_customer_last_name.insert(0, values[1])
@@ -55,19 +56,20 @@ def delete_customer(tree, record):
     refresh_treeview(tree, pbd.Customer)
 
 def read_travel_entries():  # Read content of entry boxes
-    return entry_travel_id.get(), entry_travel_last_name.get(), entry_travel_contact_info.get(),
+    return entry_travel_id.get(), entry_travel_route.get(), entry_travel_date.get(), entry_travel_capacity.get()
 
 
 def clear_travel_entries():  # Clear entry boxes
     entry_travel_id.delete(0, tk.END)  # Delete text in entry box, beginning with the first character (0) and ending with the last character (tk.END)
-    entry_travel_last_name.delete(0, tk.END)
-    entry_travel_contact_info.delete(0, tk.END)
+    entry_travel_route.delete(0, tk.END)
+    entry_travel_date.delete(0, tk.END)
+    entry_travel_capacity.delete(0, tk.END)
 
 def write_travel_entries(values):  # Fill entry boxes
         entry_travel_id.insert(0, values[0])
-        entry_travel_last_name.insert(0, values[1])
-        entry_travel_contact_info.insert(0, values[2])
-
+        entry_travel_route.insert(0, values[1])
+        entry_travel_date.insert(0, values[2])
+        entry_travel_capacity.insert(0, values[3])
 
 def edit_travel(_, tree):  # Copy selected tuple into entry boxes. First parameter is mandatory but we don't use it.
         index_selected = tree.focus()  # Index of selected tuple
@@ -208,6 +210,7 @@ tree_travel.heading("#0", text="", anchor=tk.W)  # Create column headings
 tree_travel.heading("Id", text="Id", anchor=tk.CENTER)
 tree_travel.heading("Route", text="Route", anchor=tk.CENTER)
 tree_travel.heading("Date", text="Date", anchor=tk.CENTER)
+tree_travel.heading("Capacity", text="Capacity", anchor=tk.CENTER)
 tree_travel.tag_configure('oddrow', background=oddrow)  # Create tags for rows in 2 different colors
 tree_travel.tag_configure('evenrow', background=evenrow)
 tree_travel.bind("<ButtonRelease-1>", lambda event: edit_travel(event, tree_travel))
@@ -228,13 +231,17 @@ entry_travel_id.grid(row=1, column=0, padx=padx, pady=pady)
 # label and entry for travel route
 label_travel_route = tk.Label(edit_frame_travel, text="Route")
 label_travel_route.grid(row=0, column=1, padx=padx, pady=pady)
-entry_travel_route = tk.Entry(edit_frame_travel, width=8, justify="right")
+entry_travel_route = tk.Entry(edit_frame_travel, width=15, justify="right")
 entry_travel_route.grid(row=1, column=1, padx=padx, pady=pady)
 # label and entry for travel contact_info
-label_travel_contact_info = tk.Label(edit_frame_travel, text="Date")
-label_travel_contact_info.grid(row=0, column=2, padx=padx, pady=pady)
-entry_travel_contact_info = tk.Entry(edit_frame_travel, width=20)
-entry_travel_contact_info.grid(row=1, column=2, padx=padx, pady=pady)
+label_travel_date = tk.Label(edit_frame_travel, text="Date")
+label_travel_date.grid(row=0, column=2, padx=padx, pady=pady)
+entry_travel_date = tk.Entry(edit_frame_travel, width=13)
+entry_travel_date.grid(row=1, column=2, padx=padx, pady=pady)
+label_travel_capacity = tk.Label(edit_frame_travel, text="Capacity")
+label_travel_capacity.grid(row=0, column=3, padx=padx, pady=pady)
+entry_travel_capacity = tk.Entry(edit_frame_travel, width=5)
+entry_travel_capacity.grid(row=1, column=3, padx=padx, pady=pady)
 
 
 # Define Frame which contains buttons
