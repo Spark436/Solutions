@@ -1,6 +1,7 @@
 from sqlalchemy.orm import declarative_base, Session  # install sqlalchemy with the command "pip install SQLAlchemy" in a terminal.
 from sqlalchemy import Column, String, Integer, Date  # the library sqlalchemy helps us to work with a database
 from sqlalchemy import create_engine, select
+from dateutil import parser
 
 Database = 'sqlite:///plusbus.db'
 Base = declarative_base()
@@ -44,7 +45,9 @@ class Travel(Base):
 
     @staticmethod
     def convert_from_tuple(tuple_):
-        travel_plan = Travel(id=tuple_[0], route=tuple_[1], date=tuple_[2], capacity=tuple_[3])
+        date = parser.parse(tuple_[2])
+        capacity = int(tuple_[3])
+        travel_plan = Travel(id=tuple_[0], route=tuple_[1], date=date, capacity=capacity)
         return travel_plan
 
 def select_all(classparam):  # return a list of all records in classparams table
