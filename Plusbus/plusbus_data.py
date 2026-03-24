@@ -1,5 +1,5 @@
 from sqlalchemy.orm import declarative_base, Session  # install sqlalchemy with the command "pip install SQLAlchemy" in a terminal.
-from sqlalchemy import Column, String, Integer, Date  # the library sqlalchemy helps us to work with a database
+from sqlalchemy import Column, String, Integer, Date, ForeignKey  # the library sqlalchemy helps us to work with a database
 from sqlalchemy import create_engine, select
 from dateutil import parser
 
@@ -49,6 +49,19 @@ class Travel(Base):
         capacity = int(tuple_[3])
         travel_plan = Travel(id=tuple_[0], route=tuple_[1], date=date, capacity=capacity)
         return travel_plan
+
+class Booking(Base):
+    __table_name__ = "bookings"
+    id = Column(Integer, primary_key=True)
+    customer_id = Column(Integer, ForeignKey("customers.id"), nullable=False)
+    travel_id = Column(Integer, ForeignKey("travels.id"), nullable=False)
+    seats = Column(Integer)
+
+    def __repr__(self):
+        return f"Booking({self.id=} {self.customer_id=} {self.travel_id=} {self.seats=}"
+
+    def convert_to_tuple(self):
+        return self.id, self.customer_id, self.travel_id, self.seats
 
 def select_all(classparam):  # return a list of all records in classparams table
     with Session(engine) as session:
