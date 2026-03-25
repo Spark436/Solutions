@@ -64,6 +64,10 @@ class Booking(Base):
         return self.id, self.customer_id, self.travel_id, self.seats
 
     def valid(self):
+        return self.seats >= 0
+
+    @staticmethod
+    def convert_from_tuple(tuple_):
 
 
 def select_all(classparam):  # return a list of all records in classparams table
