@@ -63,6 +63,9 @@ class Booking(Base):
     def convert_to_tuple(self):
         return self.id, self.customer_id, self.travel_id, self.seats
 
+    def valid(self):
+
+
 def select_all(classparam):  # return a list of all records in classparams table
     with Session(engine) as session:
         records = session.scalars(select(classparam))
