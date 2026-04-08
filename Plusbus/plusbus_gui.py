@@ -66,16 +66,16 @@ def clear_travel_entries():  # Clear entry boxes
     entry_travel_capacity.delete(0, tk.END)
 
 def write_travel_entries(values):  # Fill entry boxes
-        entry_travel_id.insert(0, values[0])
-        entry_travel_route.insert(0, values[1])
-        entry_travel_date.insert(0, values[2])
-        entry_travel_capacity.insert(0, values[3])
+    entry_travel_id.insert(0, values[0])
+    entry_travel_route.insert(0, values[1])
+    entry_travel_date.insert(0, values[2])
+    entry_travel_capacity.insert(0, values[3])
 
 def edit_travel(_, tree):  # Copy selected tuple into entry boxes. First parameter is mandatory but we don't use it.
-        index_selected = tree.focus()  # Index of selected tuple
-        values = tree.item(index_selected, 'values')  # Values of selected tuple
-        clear_travel_entries()  # Clear entry boxes
-        write_travel_entries(values)  # Fill entry boxes
+    index_selected = tree.focus()  # Index of selected tuple
+    values = tree.item(index_selected, 'values')  # Values of selected tuple
+    clear_travel_entries()  # Clear entry boxes
+    write_travel_entries(values)  # Fill entry boxes
 
 def create_travel(tree, record):  # add new tuple to database
     travel = pbd.Travel.convert_from_tuple(record)  # Convert tuple to travel
@@ -94,6 +94,18 @@ def delete_travel(tree, record):
     pbsql.delete_travel(travel)
     clear_travel_entries()
     refresh_treeview(tree, pbd.Travel)
+
+def read_boooking_entries():
+    entry_booking_id.get(), entry_booking_customer_id.get(), entry_booking_travel_id.get(), entry_booking_seats.get()
+
+def clear_booking_entries():
+    entry_booking_id.delete(0, tk.END)
+    entry_booking_customer_id.delete(0, tk.END)
+    entry_booking_travel_id.delete(0, tk.END)
+    entry_booking_seats.delete(0, tk.END)
+
+def write_booking_entries(values):
+
 
 def read_table(tree, class_):  # fill tree from database
     count = 0  # Used to keep track of odd and even rows, because these will be colored differently.
@@ -255,6 +267,76 @@ button_update_travel.grid(row=0, column=2, padx=padx, pady=pady)
 button_delete_travel = tk.Button(button_frame_travel, text="Delete", command=lambda: delete_travel(tree_travel, read_travel_entries()))
 button_delete_travel.grid(row=0, column=3, padx=padx, pady=pady)
 button_clear_boxes = tk.Button(button_frame_travel, text="Clear Entry Boxes", command=clear_travel_entries)
+button_clear_boxes.grid(row=0, column=4, padx=padx, pady=pady)
+
+
+frame_booking = tk.LabelFrame(main_window, text="booking")  # https://www.tutorialspoint.com/python/tk_labelframe.htm
+frame_booking.grid(row=0, column=1, padx=padx, pady=pady, sticky=tk.N)  # https://www.tutorialspoint.com/python/tk_grid.htm
+
+# Define data table (Treeview) and its scrollbar. Put them in a Frame.
+tree_frame_booking = tk.Frame(frame_booking)  # https://www.tutorialspoint.com/python/tk_frame.htm
+tree_frame_booking.grid(row=0, column=0, padx=padx, pady=pady)
+tree_scroll_booking = tk.Scrollbar(tree_frame_booking)
+tree_scroll_booking.grid(row=0, column=1, padx=0, pady=pady, sticky='ns')
+tree_booking = ttk.Treeview(tree_frame_booking, yscrollcommand=tree_scroll_booking.set, selectmode="browse")  # https://docs.python.org/3/library/tkinter.ttk.html#treeview
+tree_booking.grid(row=0, column=0, padx=0, pady=pady)
+tree_scroll_booking.config(command=tree_booking.yview)
+
+# Define the data table's formatting and content
+tree_booking['columns'] = ("Id", "Route", "Date", "Capacity")  # Define columns
+tree_booking.column("#0", width=0, stretch=tk.NO)  # Format columns. Suppress the irritating first empty column.
+tree_booking.column("Id", anchor=tk.E, width=40)  # "E" stands for East, meaning Right. Possible anchors are N, NE, E, SE, S, SW, W, NW and CENTER
+tree_booking.column("Route", anchor=tk.E, width=80)
+tree_booking.column("Date", anchor=tk.W, width=200)
+tree_booking.heading("#0", text="", anchor=tk.W)  # Create column headings
+tree_booking.heading("Id", text="Id", anchor=tk.CENTER)
+tree_booking.heading("Route", text="Route", anchor=tk.CENTER)
+tree_booking.heading("Date", text="Date", anchor=tk.CENTER)
+tree_booking.heading("Capacity", text="Capacity", anchor=tk.CENTER)
+tree_booking.tag_configure('oddrow', background=oddrow)  # Create tags for rows in 2 different colors
+tree_booking.tag_configure('evenrow', background=evenrow)
+tree_booking.bind("<ButtonRelease-1>", lambda event: edit_booking(event, tree_booking))
+
+# Define Frame which contains labels, entries and buttons
+controls_frame_booking = tk.Frame(frame_booking)
+controls_frame_booking.grid(row=3, column=0, padx=padx, pady=pady)
+
+
+# Define Frame which contains labels (text fields) and entries (input fields)
+edit_frame_booking = tk.Frame(controls_frame_booking)  # Add tuple entry boxes
+edit_frame_booking.grid(row=0, column=0, padx=padx, pady=pady)
+# label and entry for booking id
+label_booking_id = tk.Label(edit_frame_booking, text="Id")  # https://www.tutorialspoint.com/python/tk_label.htm
+label_booking_id.grid(row=0, column=0, padx=padx, pady=pady)
+entry_booking_id = tk.Entry(edit_frame_booking, width=4, justify="right")  # https://www.tutorialspoint.com/python/tk_entry.htm
+entry_booking_id.grid(row=1, column=0, padx=padx, pady=pady)
+# label and entry for booking route
+label_booking_customer_id = tk.Label(edit_frame_booking, text="customer_id")
+label_booking_customer_id.grid(row=0, column=1, padx=padx, pady=pady)
+entry_booking_customer_id = tk.Entry(edit_frame_booking, width=15, justify="right")
+entry_booking_customer_id.grid(row=1, column=1, padx=padx, pady=pady)
+# label and entry for booking contact_info
+label_booking_travel_id = tk.Label(edit_frame_booking, text="travel_id")
+label_booking_travel_id.grid(row=0, column=2, padx=padx, pady=pady)
+entry_booking_travel_id = tk.Entry(edit_frame_booking, width=13)
+entry_booking_travel_id.grid(row=1, column=2, padx=padx, pady=pady)
+label_booking_seats = tk.Label(edit_frame_booking, text="seats")
+label_booking_seats.grid(row=0, column=3, padx=padx, pady=pady)
+entry_booking_seats = tk.Entry(edit_frame_booking, width=5)
+entry_booking_seats.grid(row=1, column=3, padx=padx, pady=pady)
+
+
+# Define Frame which contains buttons
+button_frame_booking = tk.Frame(controls_frame_booking)
+button_frame_booking.grid(row=1, column=0, padx=padx, pady=pady)
+# Define buttons
+button_create_booking = tk.Button(button_frame_booking, text="Create", command=lambda: create_booking(tree_booking, read_booking_entries()))
+button_create_booking.grid(row=0, column=1, padx=padx, pady=pady)
+button_update_booking = tk.Button(button_frame_booking, text="Update", command=lambda: update_booking(tree_booking, read_booking_entries()))
+button_update_booking.grid(row=0, column=2, padx=padx, pady=pady)
+button_delete_booking = tk.Button(button_frame_booking, text="Delete", command=lambda: delete_booking(tree_booking, read_booking_entries()))
+button_delete_booking.grid(row=0, column=3, padx=padx, pady=pady)
+button_clear_boxes = tk.Button(button_frame_booking, text="Clear Entry Boxes", command=clear_booking_entries)
 button_clear_boxes.grid(row=0, column=4, padx=padx, pady=pady)
 
 # region main program

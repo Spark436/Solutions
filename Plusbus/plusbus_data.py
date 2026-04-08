@@ -68,6 +68,11 @@ class Booking(Base):
 
     @staticmethod
     def convert_from_tuple(tuple_):
+        customer_id = int(tuple_[1])
+        travel_id = int(tuple_[2])
+        seats = int(tuple_[3])
+        booking = Booking(id=tuple_[0], customer_id=customer_id, travel_id=travel_id, seats=seats)
+        return booking
 
 
 def select_all(classparam):  # return a list of all records in classparams table
