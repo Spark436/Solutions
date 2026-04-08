@@ -105,7 +105,7 @@ def clear_booking_entries():
     entry_booking_seats.delete(0, tk.END)
 
 def write_booking_entries(values):
-
+    entry_booking_id.insert(0, values[0])
 
 def read_table(tree, class_):  # fill tree from database
     count = 0  # Used to keep track of odd and even rows, because these will be colored differently.
