@@ -106,6 +106,28 @@ def clear_booking_entries():
 
 def write_booking_entries(values):
     entry_booking_id.insert(0, values[0])
+    entry_booking_customer_id.insert(0, values[1])
+    entry_booking_travel_id.insert(0, values[2])
+    entry_booking_seats.insert(0, values[3])
+
+def edit_booking(_, tree):
+    index_selected = tree.focus()
+    values = tree.item(index_selected, 'values')
+    clear_booking_entries()
+    write_booking_entries(values)
+    
+def create_booking(tree, record):  # add new tuple to database
+    booking = pbd.Booking.convert_from_tuple(record)  # Convert tuple to travel
+    pbsql.create_record(booking)  # Update database
+    clear_booking_entries()  # Clear entry boxes
+    refresh_treeview(tree, pbd.Booking)  # Refresh treeview table
+    
+def update_booking(tree, record):
+    booking = pbd.Booking.convert_from_tuple(record)
+    pbsql.update_booking(booking)
+    clear_booking_entries()
+    refresh_treeview(tree, pbd.Booking)
+
 
 def read_table(tree, class_):  # fill tree from database
     count = 0  # Used to keep track of odd and even rows, because these will be colored differently.

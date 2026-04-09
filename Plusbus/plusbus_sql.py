@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine, select, update, delete
 # from datetime import date
-from plusbus_data import Customer, Base, Travel
+from plusbus_data import Customer, Base, Travel, Booking
 
 # add the following 7 lines to make foreign key constraints work  https://docs.sqlalchemy.org/en/14/dialects/sqlite.html#sqlite-foreign-keys
 from sqlalchemy.engine import Engine
@@ -50,7 +50,10 @@ def delete_travel(travel):
         session.commit()
 
 
-
+def update_booking(booking):
+    with Session(engine) as session:
+        session.execute(update(Booking).where(Booking.id == booking.id).values(customer_id=booking.customer_id, travel_id=booking.travel_id, seats=booking.seats))
+        session.commit()
 
 if __name__ == "__main__":  # Executed when invoked directly
     engine = create_engine(Database, echo=False, future=True)  # https://docs.sqlalchemy.org/en/14/tutorial/engine.html   The start of any SQLAlchemy application is an object called the Engine. This object acts as a central source of connections to a particular database, providing both a factory as well as a holding space called a connection pool for these database connections. The engine is typically a global object created just once for a particular database server, and is configured using a URL string which will describe how it should connect to the database host or backend.
