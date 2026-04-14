@@ -128,6 +128,12 @@ def update_booking(tree, record):
     clear_booking_entries()
     refresh_treeview(tree, pbd.Booking)
 
+def delete_booking(tree, record):
+    booking = pbd.Booking.convert_from_tuple(record)
+    pbsql.delete_booking(booking)
+    clear_booking_entries()
+    refresh_treeview(tree, pbd.Booking)
+
 
 def read_table(tree, class_):  # fill tree from database
     count = 0  # Used to keep track of odd and even rows, because these will be colored differently.
