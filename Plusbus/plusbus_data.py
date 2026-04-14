@@ -51,7 +51,7 @@ class Travel(Base):
         return travel_plan
 
 class Booking(Base):
-    __table_name__ = "bookings"
+    __tablename__ = "bookings"
     id = Column(Integer, primary_key=True)
     customer_id = Column(Integer, ForeignKey("customers.id"), nullable=False)
     travel_id = Column(Integer, ForeignKey("travels.id"), nullable=False)

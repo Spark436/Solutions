@@ -95,7 +95,7 @@ def delete_travel(tree, record):
     clear_travel_entries()
     refresh_treeview(tree, pbd.Travel)
 
-def read_boooking_entries():
+def read_booking_entries():
     entry_booking_id.get(), entry_booking_customer_id.get(), entry_booking_travel_id.get(), entry_booking_seats.get()
 
 def clear_booking_entries():
