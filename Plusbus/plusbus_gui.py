@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter.ttk import Treeview
+
 import plusbus_data as pbd
 import plusbus_sql as pbsql
 
@@ -96,7 +98,7 @@ def delete_travel(tree, record):
     refresh_treeview(tree, pbd.Travel)
 
 def read_booking_entries():
-    entry_booking_id.get(), entry_booking_customer_id.get(), entry_booking_travel_id.get(), entry_booking_seats.get()
+    return entry_booking_id.get(), entry_booking_customer_id.get(), entry_booking_travel_id.get(), entry_booking_seats.get()
 
 def clear_booking_entries():
     entry_booking_id.delete(0, tk.END)
@@ -156,7 +158,7 @@ def empty_treeview(tree):  # Clear treeview table
 # region common widgets
 main_window = tk.Tk()  # Define the main window
 main_window.title('AspIT S2: DanskCargo')  # Text shown in the top window bar
-main_window.geometry("1200x500")  # window size
+main_window.geometry("1525x500")  # window size
 
 style = ttk.Style()  # Add style
 style.theme_use('default')  # Pick theme
@@ -299,28 +301,28 @@ button_clear_boxes.grid(row=0, column=4, padx=padx, pady=pady)
 
 
 frame_booking = tk.LabelFrame(main_window, text="booking")  # https://www.tutorialspoint.com/python/tk_labelframe.htm
-frame_booking.grid(row=0, column=1, padx=padx, pady=pady, sticky=tk.N)  # https://www.tutorialspoint.com/python/tk_grid.htm
+frame_booking.grid(row=0, column=2, padx=padx, pady=pady, sticky=tk.N)  # https://www.tutorialspoint.com/python/tk_grid.htm
 
 # Define data table (Treeview) and its scrollbar. Put them in a Frame.
-tree_frame_booking = tk.Frame(frame_booking)  # https://www.tutorialspoint.com/python/tk_frame.htm
+tree_frame_booking = tk.Frame(frame_booking)  # https://www.tutorialspoint.com/python/tk_frame.html
 tree_frame_booking.grid(row=0, column=0, padx=padx, pady=pady)
 tree_scroll_booking = tk.Scrollbar(tree_frame_booking)
 tree_scroll_booking.grid(row=0, column=1, padx=0, pady=pady, sticky='ns')
-tree_booking = ttk.Treeview(tree_frame_booking, yscrollcommand=tree_scroll_booking.set, selectmode="browse")  # https://docs.python.org/3/library/tkinter.ttk.html#treeview
+tree_booking: Treeview = ttk.Treeview(tree_frame_booking, yscrollcommand=tree_scroll_booking.set, selectmode="browse")  # https://docs.python.org/3/library/tkinter.ttk.html#treeview
 tree_booking.grid(row=0, column=0, padx=0, pady=pady)
 tree_scroll_booking.config(command=tree_booking.yview)
 
 # Define the data table's formatting and content
-tree_booking['columns'] = ("Id", "Route", "Date", "Capacity")  # Define columns
+tree_booking['columns'] = ("Id", "Customer id", "Travel id", "Seats")  # Define columns
 tree_booking.column("#0", width=0, stretch=tk.NO)  # Format columns. Suppress the irritating first empty column.
 tree_booking.column("Id", anchor=tk.E, width=40)  # "E" stands for East, meaning Right. Possible anchors are N, NE, E, SE, S, SW, W, NW and CENTER
-tree_booking.column("Route", anchor=tk.E, width=80)
-tree_booking.column("Date", anchor=tk.W, width=200)
+tree_booking.column("Customer id", anchor=tk.E, width=80)
+tree_booking.column("Travel id", anchor=tk.W, width=200)
 tree_booking.heading("#0", text="", anchor=tk.W)  # Create column headings
 tree_booking.heading("Id", text="Id", anchor=tk.CENTER)
-tree_booking.heading("Route", text="Route", anchor=tk.CENTER)
-tree_booking.heading("Date", text="Date", anchor=tk.CENTER)
-tree_booking.heading("Capacity", text="Capacity", anchor=tk.CENTER)
+tree_booking.heading("Customer id", text="Customer id", anchor=tk.CENTER)
+tree_booking.heading("Travel id", text="Travel id", anchor=tk.CENTER)
+tree_booking.heading("Seats", text="Seats", anchor=tk.CENTER)
 tree_booking.tag_configure('oddrow', background=oddrow)  # Create tags for rows in 2 different colors
 tree_booking.tag_configure('evenrow', background=evenrow)
 tree_booking.bind("<ButtonRelease-1>", lambda event: edit_booking(event, tree_booking))

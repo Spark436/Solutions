@@ -58,7 +58,7 @@ def update_booking(booking):
 
 def delete_booking(booking):
     with Session(engine) as session:
-        session.execute(update(Booking).where(Booking.id == booking.id))
+        session.execute(delete(Booking).where(Booking.id == booking.id))
         session.commit()
 
 
