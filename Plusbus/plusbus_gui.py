@@ -4,6 +4,7 @@ from tkinter.ttk import Treeview
 
 import plusbus_data as pbd
 import plusbus_sql as pbsql
+import plusbus_func as pbf
 
 # Add buttons that can update, delete and create customers
 # Add functions which will be called by the buttons
@@ -120,6 +121,7 @@ def edit_booking(_, tree):
     
 def create_booking(tree, record):  # add new tuple to database
     booking = pbd.Booking.convert_from_tuple(record)  # Convert tuple to travel
+    print(pbf.booked_seats(booking.travel_id))
     pbsql.create_record(booking)  # Update database
     clear_booking_entries()  # Clear entry boxes
     refresh_treeview(tree, pbd.Booking)  # Refresh treeview table
@@ -373,5 +375,6 @@ button_clear_boxes.grid(row=0, column=4, padx=padx, pady=pady)
 if __name__ == "__main__":  # Executed when invoked directly. We use this so main_window.mainloop() does not keep our unit tests from running.
     refresh_treeview(tree_customer, pbd.Customer)# Load data from database
     refresh_treeview(tree_travel, pbd.Travel)
+    refresh_treeview(tree_booking, pbd.Booking)
     main_window.mainloop()  # Wait for button clicks and act upon them
 # endregion main program
