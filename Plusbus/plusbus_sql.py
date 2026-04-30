@@ -20,7 +20,7 @@ def select_all(classparam):  # https://docs.sqlalchemy.org/en/14/tutorial/data_s
             result.append(record)
     return result
 
-
+    
 def create_record(record):
     with Session(engine) as session:
         session.add(record)
