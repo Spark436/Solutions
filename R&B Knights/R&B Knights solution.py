@@ -25,7 +25,8 @@ class Board:
         pass
 
     def print(self):
-        pass
+        for row in self.board:
+            print(row)
 
 
 
@@ -51,7 +52,7 @@ board = Board(4)
 knight = Brick("Red knight", 1, 2)
 board.place_brick(knight, 3, 2)
 print(board.board[3][2])
-print(board.board)
+board.print()
 
 # print(board.x)
 # print(board.y)
