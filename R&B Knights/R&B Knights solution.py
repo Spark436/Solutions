@@ -26,8 +26,9 @@ class Board:
 
     def print(self):
         for row in self.board:
-            print(row)
-
+            for column in row:
+                print(column, end=" ")
+            print()
 
 
 class Brick:
@@ -38,14 +39,23 @@ class Brick:
 def board_to_spiral(x, y):
     return s
 
+
 def spiral_to_board(s):
     return x, y
+
 
 def make_board_to_spiral_dict():
     return dict
 
+
 def make_spiral_board_dict():
-    return dict
+    spiral2board = {0: {0, 0},
+                    1: {1, 0},
+                    2: {1, 1},
+                    3: {0, 1},
+                    4: {-1, 1},
+                    5: {-1, 0}},
+    return spiral2board
 
 
 board = Board(4)
@@ -53,6 +63,7 @@ knight = Brick("Red knight", 1, 2)
 board.place_brick(knight, 3, 2)
 print(board.board[3][2])
 board.print()
+print(make_spiral_board_dict())
 
 # print(board.x)
 # print(board.y)
