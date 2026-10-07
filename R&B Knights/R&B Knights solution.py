@@ -48,13 +48,42 @@ def make_board_to_spiral_dict():
     return dict
 
 
-def make_spiral_board_dict():
-    spiral2board = {0: {0, 0},
-                    1: {1, 0},
-                    2: {1, 1},
-                    3: {0, 1},
-                    4: {-1, 1},
-                    5: {-1, 0}},
+def make_spiral_board_dict(n):
+    spiral2board = {0: {0, 0},}
+
+    x, y = 0, 0
+    index = 1
+    step = 1
+
+    directions = [
+        (1, 0),
+        (0, 1),
+        (-1, 0),
+        (0, -1),
+    ]
+
+    while index < n:
+        for direction in range(2):
+            dx, dy = directions[direction]
+
+
+            for _ in range(step):
+                if index >= n:
+                    break
+
+
+                x += dx
+                y += dy
+                spiral2board[index] = (x, y)
+                index += 1
+
+            if direction % 3 == 1:
+                step += 1
+                    # 1: {1, 0},
+                    # 2: {1, 1},
+                    # 3: {0, 1},
+                    # 4: {-1, 1},
+                    # 5: {-1, 0}},
     return spiral2board
 
 
@@ -63,7 +92,7 @@ knight = Brick("Red knight", 1, 2)
 board.place_brick(knight, 3, 2)
 print(board.board[3][2])
 board.print()
-print(make_spiral_board_dict())
+print(make_spiral_board_dict(15))
 
 # print(board.x)
 # print(board.y)
