@@ -19,7 +19,7 @@ class Board:
         self.board[x][y] = brick.color
 
     def mark_threatened(self):
-        pass
+
 
     def find_free_square(self):
         pass
@@ -49,42 +49,40 @@ def make_board_to_spiral_dict():
 
 
 def make_spiral_board_dict(n):
-    spiral2board = {0: {0, 0},}
+    spiral2board = {}
+    board2spiral = {}
 
     x, y = 0, 0
-    index = 1
-    step = 1
+    spiral2board[0] = (x, y)
+    board2spiral[(x, y)] = 0
 
-    directions = [
-        (1, 0),
-        (0, 1),
-        (-1, 0),
-        (0, -1),
-    ]
+    dx, dy = 1, 0
+    step_lenght = 1
+    s = 1
 
-    while index < n:
-        for direction in range(2):
-            dx, dy = directions[direction]
-
-
-            for _ in range(step):
-                if index >= n:
-                    break
-
+    while s < n:
+        for _ in range(2):
+            for _ in range(step_lenght):
+                if s >= n:
+                    return spiral2board, board2spiral
 
                 x += dx
                 y += dy
-                spiral2board[index] = (x, y)
-                index += 1
 
-            if direction % 3 == 1:
-                step += 1
-                    # 1: {1, 0},
-                    # 2: {1, 1},
-                    # 3: {0, 1},
-                    # 4: {-1, 1},
-                    # 5: {-1, 0}},
-    return spiral2board
+                spiral2board[s] = (x, y)
+                board2spiral[(x, y)] = s
+                s += 1
+
+            dx, dy = -dy, dx
+            print(dx, dy)
+
+        step_lenght += 1
+                # 1: {1, 0},
+                # 2: {1, 1},
+                # 3: {0, 1},
+                # 4: {-1, 1},
+                # 5: {-1, 0}},
+    return spiral2board, board2spiral
 
 
 board = Board(4)
@@ -92,7 +90,9 @@ knight = Brick("Red knight", 1, 2)
 board.place_brick(knight, 3, 2)
 print(board.board[3][2])
 board.print()
-print(make_spiral_board_dict(15))
+spiral2board, board2spiral = make_spiral_board_dict(15)
+print(spiral2board)
+print(board2spiral)
 
 # print(board.x)
 # print(board.y)
