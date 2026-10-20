@@ -19,7 +19,7 @@ class Board:
         self.board[x][y] = brick.color
 
     def mark_threatened(self):
-
+        pass
 
     def find_free_square(self):
         pass
@@ -32,8 +32,9 @@ class Board:
 
 
 class Brick:
-    def __init__(self, name, move1, move2):
-        self.color = "R"
+    def __init__(self, color, move1, move2):
+        self.color = color
+        self.moves =
 
 
 def board_to_spiral(x, y):
@@ -90,9 +91,11 @@ knight = Brick("Red knight", 1, 2)
 board.place_brick(knight, 3, 2)
 print(board.board[3][2])
 board.print()
-spiral2board, board2spiral = make_spiral_board_dict(15)
+spiral2board, board2spiral = make_spiral_board_dict(100)
 print(spiral2board)
-print(board2spiral)
+print(spiral2board[5])
+print(board2spiral[(3, 4)])
+# print(board2spiral)
 
 # print(board.x)
 # print(board.y)
