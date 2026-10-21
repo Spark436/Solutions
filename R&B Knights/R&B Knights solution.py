@@ -2,7 +2,11 @@
 # Make the algorithm visible so that the user can see the patterns that are created
 # Create a chess board
 # Create a spiral of numbers on the chess board
-#
+# step 1 generate variable possibilities from move1 and move2
+# step 2 in place brick calculate all 8 threatened squares
+# step 3 generate for each player a list with available squares
+# step 4 remove the threatened squares from step 2, from the opponents list of available squares
+
 class Board:
     def __init__(self, size):
         # self.x = range(size)
@@ -34,7 +38,17 @@ class Board:
 class Brick:
     def __init__(self, color, move1, move2):
         self.color = color
-        self.moves =
+        self.moves = move1, move2
+
+        for move1, move2 in self.moves:
+            move1 = 0
+            move2 = 0
+
+            for move1 in range(2):
+
+
+
+        # move 1 = 1 move 2 = 2 8 possibilities:  1, 2  1, -2  -1, 2  -1, -2  2, 1  2, -1  -2, 1  -2, -1
 
 
 def board_to_spiral(x, y):
