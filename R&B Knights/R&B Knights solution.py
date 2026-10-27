@@ -38,14 +38,15 @@ class Board:
 class Brick:
     def __init__(self, color, move1, move2):
         self.color = color
-        self.moves = move1, move2
-
-        for move1, move2 in self.moves:
-            move1 = 0
-            move2 = 0
-
-            for move1 in range(2):
-
+        self.moves = [
+            (x * move1, y * move2)
+            for x in (-1, 1)
+            for y in (-1, 1)
+        ] + [
+            (x * move2, y * move1)
+            for x in (-1, 1)
+            for y in (-1, 1)
+        ]
 
 
         # move 1 = 1 move 2 = 2 8 possibilities:  1, 2  1, -2  -1, 2  -1, -2  2, 1  2, -1  -2, 1  -2, -1
@@ -106,9 +107,10 @@ board.place_brick(knight, 3, 2)
 print(board.board[3][2])
 board.print()
 spiral2board, board2spiral = make_spiral_board_dict(100)
-print(spiral2board)
-print(spiral2board[5])
-print(board2spiral[(3, 4)])
+# print(spiral2board)
+# print(spiral2board[5])
+# print(board2spiral[(3, 4)])
+print(knight.moves)
 # print(board2spiral)
 
 # print(board.x)
