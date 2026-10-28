@@ -48,6 +48,8 @@ class Brick:
             for y in (-1, 1)
         ]
 
+        self.available_squares = [x for x in range(200)]  # find max spiral value # generate list with list comprehension
+
 
         # move 1 = 1 move 2 = 2 8 possibilities:  1, 2  1, -2  -1, 2  -1, -2  2, 1  2, -1  -2, 1  -2, -1
 
@@ -104,15 +106,15 @@ def make_spiral_board_dict(n):
 board = Board(4)
 knight = Brick("Red knight", 1, 2)
 board.place_brick(knight, 3, 2)
-print(board.board[3][2])
+# print(board.board[3][2])
 board.print()
-spiral2board, board2spiral = make_spiral_board_dict(100)
+spiral2board, board2spiral = make_spiral_board_dict(200)
 # print(spiral2board)
 # print(spiral2board[5])
 # print(board2spiral[(3, 4)])
-print(knight.moves)
+# print(knight.moves)
 # print(board2spiral)
-
+print(knight.available_squares)
 # print(board.x)
 # print(board.y)
 
