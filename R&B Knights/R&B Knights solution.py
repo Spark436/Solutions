@@ -18,9 +18,12 @@ class Board:
                 columns.append(0)
             self.board.append(columns)
 
-    def place_brick(self, brick, x, y):
+    def place_brick(self, friend_brick, evil_brick, x, y):
         # self.board[3][2] = "R"
-        self.board[x][y] = brick.color
+        self.board[x][y] = friend_brick.color
+        # print threatened squares x, y
+        # print threatened squares s
+        # remove threatened squares from opponents available squares
 
     def mark_threatened(self):
         pass
