@@ -21,6 +21,15 @@ class Board:
     def place_brick(self, friend_brick, evil_brick, x, y):
         # self.board[3][2] = "R"
         self.board[x][y] = friend_brick.color
+        print(friend_brick.moves)
+        for delta_x, delta_y in friend_brick.moves:
+            threatened_s = board2spiral[(x + delta_x, y + delta_y)]
+            if threatened_s == evil_brick.available_squares:
+                evil_brick.available_squares -= threatened_s
+
+        print(evil_brick.available_squares)
+        exit(1)
+
         # print threatened squares x, y
         # print threatened squares s
         # remove threatened squares from opponents available squares
@@ -107,17 +116,18 @@ def make_spiral_board_dict(n):
 
 
 board = Board(4)
-knight = Brick("Red knight", 1, 2)
-board.place_brick(knight, 3, 2)
+spiral2board, board2spiral = make_spiral_board_dict(200)
+black_knight = Brick("Black knight", 1, 2)
+red_knight = Brick("Red knight", 1, 2)
+board.place_brick(red_knight, black_knight, 3, 2)
 # print(board.board[3][2])
 board.print()
-spiral2board, board2spiral = make_spiral_board_dict(200)
 # print(spiral2board)
 # print(spiral2board[5])
 # print(board2spiral[(3, 4)])
 # print(knight.moves)
 # print(board2spiral)
-print(knight.available_squares)
+print(black_knight.available_squares)
 # print(board.x)
 # print(board.y)
 
