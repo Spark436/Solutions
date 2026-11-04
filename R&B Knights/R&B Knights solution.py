@@ -24,8 +24,9 @@ class Board:
         print(friend_brick.moves)
         for delta_x, delta_y in friend_brick.moves:
             threatened_s = board2spiral[(x + delta_x, y + delta_y)]
+
             if threatened_s == evil_brick.available_squares:
-                evil_brick.available_squares -= threatened_s
+                evil_brick.available_squares[200] -= threatened_s
 
         print(evil_brick.available_squares)
         exit(1)
