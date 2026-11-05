@@ -20,20 +20,12 @@ class Board:
 
     def place_brick(self, friend_brick, evil_brick, x, y):
         # self.board[3][2] = "R"
+        # Remove the placed bricks square from both sides available squares
         self.board[x][y] = friend_brick.color
-        print(friend_brick.moves)
+        # remove threatened squares from opponents available squares
         for delta_x, delta_y in friend_brick.moves:
             threatened_s = board2spiral[(x + delta_x, y + delta_y)]
-
-            if threatened_s == evil_brick.available_squares:
-                evil_brick.available_squares[200] -= threatened_s
-
-        print(evil_brick.available_squares)
-        exit(1)
-
-        # print threatened squares x, y
-        # print threatened squares s
-        # remove threatened squares from opponents available squares
+            evil_brick.available_squares.remove(threatened_s)
 
     def mark_threatened(self):
         pass
@@ -120,6 +112,10 @@ board = Board(4)
 spiral2board, board2spiral = make_spiral_board_dict(200)
 black_knight = Brick("Black knight", 1, 2)
 red_knight = Brick("Red knight", 1, 2)
+# get the first available square for red
+# transorm it to x, y and place a brick there
+# do the same for black
+# set the placements of the red and black knights in a loop that ends when one side runs out of available squares
 board.place_brick(red_knight, black_knight, 3, 2)
 # print(board.board[3][2])
 board.print()
