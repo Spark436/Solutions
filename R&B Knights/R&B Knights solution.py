@@ -20,7 +20,8 @@ class Board:
 
     def place_brick(self, friend_brick, evil_brick, x, y):
         # self.board[3][2] = "R"
-        # Remove the placed bricks square from both sides available squares
+        friend_brick.available_squares.remove(board2spiral[(x, y)]) # Remove the placed bricks square from both sides available squares
+        evil_brick.available_squares.remove(board2spiral[(x, y)])
         self.board[x][y] = friend_brick.color
         # remove threatened squares from opponents available squares
         for delta_x, delta_y in friend_brick.moves:
@@ -97,7 +98,7 @@ def make_spiral_board_dict(n):
                 s += 1
 
             dx, dy = -dy, dx
-            print(dx, dy)
+            # print(dx, dy)
 
         step_lenght += 1
                 # 1: {1, 0},
@@ -107,18 +108,20 @@ def make_spiral_board_dict(n):
                 # 5: {-1, 0}},
     return spiral2board, board2spiral
 
-
-board = Board(4)
-spiral2board, board2spiral = make_spiral_board_dict(200)
-black_knight = Brick("Black knight", 1, 2)
-red_knight = Brick("Red knight", 1, 2)
-# get the first available square for red
-# transorm it to x, y and place a brick there
-# do the same for black
-# set the placements of the red and black knights in a loop that ends when one side runs out of available squares
-board.place_brick(red_knight, black_knight, 3, 2)
-# print(board.board[3][2])
+board_size = 11
+offset = board_size // 2
+board = Board(board_size)
+spiral2board, board2spiral = make_spiral_board_dict(board_size * board_size)
+black_knight = Brick("B", 1, 2)
+red_knight = Brick("R", 1, 2)
+x, y = spiral2board[red_knight.available_squares[0]] # get the first available square for red # transform it to x, y and place a brick there
+board.place_brick(red_knight, black_knight, x, y)
+x, y = spiral2board[black_knight.available_squares[0]] # do the same for black
+board.place_brick(black_knight, red_knight, x, y)
 board.print()
+# use the offset so the brick on 0, 0 is in the center of the board
+# set the placements of the red and black knights in a loop that ends when one side runs out of available squares
+# print(board.board[3][2])
 # print(spiral2board)
 # print(spiral2board[5])
 # print(board2spiral[(3, 4)])
