@@ -17,22 +17,18 @@ class Board:
             for y in range(size):
                 columns.append(0)
             self.board.append(columns)
+        self.offset = size // 2
 
     def place_brick(self, friend_brick, evil_brick, x, y):
         # self.board[3][2] = "R"
         friend_brick.available_squares.remove(board2spiral[(x, y)]) # Remove the placed bricks square from both sides available squares
         evil_brick.available_squares.remove(board2spiral[(x, y)])
-        self.board[x][y] = friend_brick.color
+        self.board[x + self.offset][y + self.offset] = friend_brick.color
         # remove threatened squares from opponents available squares
         for delta_x, delta_y in friend_brick.moves:
             threatened_s = board2spiral[(x + delta_x, y + delta_y)]
             evil_brick.available_squares.remove(threatened_s)
 
-    def mark_threatened(self):
-        pass
-
-    def find_free_square(self):
-        pass
 
     def print(self):
         for row in self.board:
@@ -109,7 +105,6 @@ def make_spiral_board_dict(n):
     return spiral2board, board2spiral
 
 board_size = 11
-offset = board_size // 2
 board = Board(board_size)
 spiral2board, board2spiral = make_spiral_board_dict(board_size * board_size)
 black_knight = Brick("B", 1, 2)
@@ -120,7 +115,7 @@ x, y = spiral2board[black_knight.available_squares[0]] # do the same for black
 board.place_brick(black_knight, red_knight, x, y)
 board.print()
 # use the offset so the brick on 0, 0 is in the center of the board
-# set the placements of the red and black knights in a loop that ends when one side runs out of available squares
+while red_knight.available_squares or black_knight.available_squares: # set the placements of the red and black knights in a loop that ends when one side runs out of available squares
 # print(board.board[3][2])
 # print(spiral2board)
 # print(spiral2board[5])
