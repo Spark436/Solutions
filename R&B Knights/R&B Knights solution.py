@@ -116,7 +116,7 @@ board.place_brick(black_knight, red_knight, x, y)
 board.print()
 # use the offset so the brick on 0, 0 is in the center of the board
 while red_knight.available_squares or black_knight.available_squares: # set the placements of the red and black knights in a loop that ends when one side runs out of available squares
-
+    place_brick(available_squares)
 # print(board.board[3][2])
 # print(spiral2board)
 # print(spiral2board[5])
