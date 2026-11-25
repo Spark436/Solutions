@@ -114,18 +114,29 @@ board.place_brick(red_knight, black_knight, x, y)
 x, y = spiral2board[black_knight.available_squares[0]] # do the same for black
 board.place_brick(black_knight, red_knight, x, y)
 board.print()
+current_brick = red_knight
+opponent_brick = black_knight
 # use the offset so the brick on 0, 0 is in the center of the board
 while red_knight.available_squares and black_knight.available_squares: # set the placements of the red and black knights in a loop that ends when one side runs out of available squares
-    if red_knight.available_squares <= 0:
-        or black_knight.available_squares <= 0:
-        return
+    square = current_brick.available_squares[0]
+    x, y = spiral2board[square]
+    board.place_brick(current_brick, opponent_brick, x, y)
+    current_brick, opponent_brick = opponent_brick, current_brick
+
+print("/nGAME OVER!")
+
+if not red_knight.available_squares:
+    print("Red has run out of squares!")
+
+if not black_knight.available_squares:
+    print("Black has run out of squares")
 # print(board.board[3][2])
 # print(spiral2board)
 # print(spiral2board[5])
 # print(board2spiral[(3, 4)])
 # print(knight.moves)
 # print(board2spiral)
-print(black_knight.available_squares)
+# print(black_knight.available_squares)
 # print(board.x)
 # print(board.y)
 
